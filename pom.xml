@@ -5,7 +5,7 @@
 
 	<groupId>com.netcracker.ssau</groupId>
 	<artifactId>rest-place-searcher</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+    <version>next-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>rest-place-searcher</name>
@@ -49,6 +49,5 @@
 			</plugin>
 		</plugins>
 	</build>
-
 
 </project>
