@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Geographical View</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+
+    <script type="text/javascript"
+            src="findPlaces.js"></script>
+    <link rel="stylesheet" type="text/css" href="googleMap.css">
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB2ifm7v5evu58yCybWWlsKAVl9EoxTlaw&libraries=places&callback=initMap"
+            async defer></script>
+</head>
+
+<body>
+<div>
+    <span>Type: </span>
+    <input id="place-type" type="text" placeholder="Введите тип места (bar/food/store...)" size="50%"/>
+    <button type="button" onclick="findNearbyPlaces()">find</button>
+</div>
+
+<div id="map"></div>
+
+</body>
