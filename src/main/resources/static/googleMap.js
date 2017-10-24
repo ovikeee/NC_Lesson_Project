@@ -1,7 +1,5 @@
-'use-strict'
-
-var map;
-var autocomplete;
+let map;
+let autocomplete;
 
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {

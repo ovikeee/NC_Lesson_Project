@@ -1,10 +1,10 @@
-var map;
-var infowindow;
-var service;
-var markers = [];
+let map;
+let infowindow;
+let service;
+let markers = [];
 
 function initMap() {
-    var pyrmont = {lat: -33.867, lng: 151.195}; //текущее положение карты
+    const pyrmont = {lat: -33.867, lng: 151.195}; //текущее положение карты
 
     map = new google.maps.Map(document.getElementById('map'), { //получение карты и задание параметров
         center: pyrmont,
@@ -22,20 +22,20 @@ function initMap() {
 
 function callback(results, status) {//рисуем на карте все маркеры
     if (status === google.maps.places.PlacesServiceStatus.OK) {
-        for (var i = 0; i < results.length; i++) {
-            createMarker(results[i]);
-        }
+        results.forEach(item => {
+            createMarker(item);
+        });
     }
 }
 function deleteAllMarkers() {
-    for (var i = 0; i < markers.length; i++) {
-        markers[i].setMap(null);
-    }
+    markers.forEach(item => {
+        item.setMap(null);
+    });
     markers = [];
 }
 function findNearbyPlaces(){ //поиск ближайших мест по заданному типу места (placeType)
-    var pyrmont = {lat: -33.867, lng: 151.195};
-    var placeType = document.getElementById('place-type').value;
+    const pyrmont = {lat: -33.867, lng: 151.195};
+    const placeType = document.getElementById('place-type').value;
 
     deleteAllMarkers();
     service.nearbySearch({
@@ -46,7 +46,7 @@ function findNearbyPlaces(){ //поиск ближайших мест по за�
 }
 
 function createMarker(place) {
-    var marker = new google.maps.Marker({//создаем маркер
+    const marker = new google.maps.Marker({//создаем маркер
         map: map,
         position: place.geometry.location
     });
