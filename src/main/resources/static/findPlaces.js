@@ -6,7 +6,7 @@ var markers = [];
 function initMap() {
     var pyrmont = {lat: -33.867, lng: 151.195}; //текущее положение карты
 
-    map = new google.maps.Map(document.getElementById('map'), {//полуение карты и задание параметров
+    map = new google.maps.Map(document.getElementById('map'), { //получение карты и задание параметров
         center: pyrmont,
         zoom: 15
     });
@@ -18,7 +18,6 @@ function initMap() {
         radius: 500,
         type: ['bank'] //тип места
     }, callback);
-
 }
 
 function callback(results, status) {//рисуем на карте все маркеры
@@ -51,13 +50,10 @@ function createMarker(place) {
         map: map,
         position: place.geometry.location
     });
-    google.maps.event.addListener(marker, 'click', function() {//вешаем на него листенер, которы при нажатии на него отображает название места
+    google.maps.event.addListener(marker, 'click', function () {//вешаем на него листенер, который при нажатии на него отображает название места
         infowindow.setContent(place.name);
         infowindow.open(map, this);
     });
     markers.push(marker);//сохраняем созданый маркер в массив маркеров
     console.log(map);
-
 }
-
-
