@@ -2,13 +2,19 @@ var map;
 var infowindow;
 var service;
 var markers = [];
+var pyrmont;
 
 function initMap() {
-    var pyrmont = {lat: -33.867, lng: 151.195}; //текущее положение карты
+    pyrmont = {lat: 53.1999856, lng: 50.1572578};//{lat: 43.6673092, lng: 40.2803399}; //текущее положение карты
+
+    // map = new google.maps.Map(document.getElementById('map'), {
+    //     center: {lat: 53.1999856, lng: 50.1572578},
+    //     zoom: 8
+    // });
 
     map = new google.maps.Map(document.getElementById('map'), {//полуение карты и задание параметров
         center: pyrmont,
-        zoom: 15
+        zoom: 8
     });
 
     infowindow = new google.maps.InfoWindow(); //для отображения маркеров и их описания
@@ -35,7 +41,6 @@ function deleteAllMarkers() {
     markers = [];
 }
 function findNearbyPlaces(){ //поиск ближайших мест по заданному типу места (placeType)
-    var pyrmont = {lat: -33.867, lng: 151.195};
     var placeType = document.getElementById('place-type').value;
 
     deleteAllMarkers();
