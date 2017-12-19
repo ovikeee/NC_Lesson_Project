@@ -2,19 +2,13 @@ var map;
 var infowindow;
 var service;
 var markers = [];
-var pyrmont;
 
 function initMap() {
-    pyrmont = {lat: 53.1999856, lng: 50.1572578};//{lat: 43.6673092, lng: 40.2803399}; //текущее положение карты
+    var pyrmont = {lat: -33.867, lng: 151.195}; //текущее положение карты
 
-    // map = new google.maps.Map(document.getElementById('map'), {
-    //     center: {lat: 53.1999856, lng: 50.1572578},
-    //     zoom: 8
-    // });
-
-    map = new google.maps.Map(document.getElementById('map'), {//полуение карты и задание параметров
+    map = new google.maps.Map(document.getElementById('map'), { //получение карты и задание параметров
         center: pyrmont,
-        zoom: 8
+        zoom: 15
     });
 
     infowindow = new google.maps.InfoWindow(); //для отображения маркеров и их описания
@@ -41,6 +35,7 @@ function deleteAllMarkers() {
     markers = [];
 }
 function findNearbyPlaces(){ //поиск ближайших мест по заданному типу места (placeType)
+    var pyrmont = {lat: -33.867, lng: 151.195};
     var placeType = document.getElementById('place-type').value;
 
     deleteAllMarkers();
@@ -56,7 +51,7 @@ function createMarker(place) {
         map: map,
         position: place.geometry.location
     });
-    google.maps.event.addListener(marker, 'click', function() {//вешаем на него листенер, которы при нажатии на него отображает название места
+    google.maps.event.addListener(marker, 'click', function () {//вешаем на него листенер, который при нажатии на него отображает название места
         infowindow.setContent(place.name);
         infowindow.open(map, this);
     });
