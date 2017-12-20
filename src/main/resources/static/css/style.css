@@ -1,0 +1,49 @@
+/* Always set the map height explicitly to define the size of the div
+  * element that contains the map. */
+#map {
+    height: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+#start-place {
+    top: 14px;
+    left: 140px;
+    position: absolute;
+    z-index: 2;
+}
+
+#final-place {
+    top: 38px;
+    left: 140px;
+    position: absolute;
+    z-index: 2;
+}
+
+#distance {
+    bottom: 62px;
+    left: 140px;
+    position: absolute;
+    z-index: 2;
+}
+
+#time {
+    bottom: 38px;
+    left: 140px;
+    position: absolute;
+    z-index: 2;
+}
+
+#weather {
+    bottom: 14px;
+    left: 140px;
+    position: absolute;
+    z-index: 2;
+}
+
+/* Optional: Makes the sample page fill the window. */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
