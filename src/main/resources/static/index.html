@@ -10,13 +10,32 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB2ifm7v5evu58yCybWWlsKAVl9EoxTlaw&libraries=places&callback=initMap"
             async defer></script>
 
-    <link rel="stylesheet" type="text/css" href="css/googleMap.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
 <div id="map"></div>
 
-<div id="locationField">
-    <input id="autocomplete" placeholder="Enter your address" type="text"/>
+<div id="start-place">
+    <!--TODO Здесь должно быть сразу текущее местоположение пользователя-->
+    <input placeholder="Где вы?" type="text"/>
+</div>
+<div id="final-place">
+    <input id="autocomplete" placeholder="Где искать?" type="text"/>
+    <button>Мне повезет!</button>
+</div>
+<div id="distance">
+    <input type="checkbox" class="checkbox" id="distance-checkbox"/>
+    <input placeholder="Искать в радиусе, км" type="text"/>
+</div>
+<div id="time">
+    <input type="checkbox" class="checkbox" id="time-checkbox"/>
+    <input placeholder="Время в пути до места" type="text"/>
+</div>
+<div id="weather">
+    <!--TODO Здесь ползунок с границами-->
+    <input type="checkbox" class="checkbox" id="weather-checkbox"/>
+    <input placeholder="Температурный интервал" type="text"/>
+    <button>Применить фильтры</button>
 </div>
 </body>
 </html>
