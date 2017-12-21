@@ -6,6 +6,10 @@
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
     <script type="text/javascript" src="googleMap.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB2ifm7v5evu58yCybWWlsKAVl9EoxTlaw&libraries=places&callback=initMap"
             async defer></script>
@@ -15,27 +19,31 @@
 <body>
 <div id="map"></div>
 
-<div id="start-place">
-    <!--TODO Здесь должно быть сразу текущее местоположение пользователя-->
-    <input placeholder="Где вы?" type="text"/>
-</div>
-<div id="final-place">
-    <input id="autocomplete" placeholder="Где искать?" type="text"/>
-    <button>Мне повезет!</button>
-</div>
-<div id="distance">
-    <input type="checkbox" class="checkbox" id="distance-checkbox"/>
-    <input placeholder="Искать в радиусе, км" type="text"/>
-</div>
-<div id="time">
-    <input type="checkbox" class="checkbox" id="time-checkbox"/>
-    <input placeholder="Время в пути до места" type="text"/>
-</div>
-<div id="weather">
-    <!--TODO Здесь ползунок с границами-->
-    <input type="checkbox" class="checkbox" id="weather-checkbox"/>
-    <input placeholder="Температурный интервал" type="text"/>
-    <button>Применить фильтры</button>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div id="start-place">
+            <!--TODO Здесь должно быть сразу текущее местоположение пользователя-->
+            <input placeholder="Где вы?" type="text" class="form-control"/>
+        </div>
+        <div id="final-place">
+            <input id="autocomplete" placeholder="Где искать?" type="text" class="form-control"/>
+            <button type="button" class="btn btn-default">Мне повезет!</button>
+        </div>
+        <div id="distance">
+            <input type="checkbox" class="checkbox" id="distance-checkbox"/>
+            <input placeholder="Искать в радиусе, км" type="text" class="form-control"/>
+        </div>
+        <div id="time">
+            <input type="checkbox" class="checkbox" id="time-checkbox"/>
+            <input placeholder="Время в пути до места" type="text" class="form-control"/>
+        </div>
+        <div id="weather">
+            <!--TODO Здесь ползунок с границами-->
+            <input type="checkbox" class="checkbox" id="weather-checkbox"/>
+            <input placeholder="Температурный интервал" type="text" class="form-control"/>
+            <button type="button" class="btn btn-default">Применить фильтры</button>
+        </div>
+    </div>
 </div>
 </body>
 </html>

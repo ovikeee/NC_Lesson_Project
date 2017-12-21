@@ -7,35 +7,35 @@
 }
 
 #start-place {
-    top: 14px;
+    top: 13px;
     left: 140px;
     position: absolute;
     z-index: 2;
 }
 
 #final-place {
-    top: 38px;
+    top: 53px;
     left: 140px;
     position: absolute;
     z-index: 2;
 }
 
 #distance {
-    bottom: 62px;
+    bottom: 133px;
     left: 140px;
     position: absolute;
     z-index: 2;
 }
 
 #time {
-    bottom: 38px;
+    bottom: 93px;
     left: 140px;
     position: absolute;
     z-index: 2;
 }
 
 #weather {
-    bottom: 14px;
+    bottom: 13px;
     left: 140px;
     position: absolute;
     z-index: 2;
