@@ -3,7 +3,6 @@ package com.netcracker.ssau.restplacesearcher.controller;
 import com.google.maps.*;
 import com.google.maps.errors.ApiException;
 import com.google.maps.model.*;
-import com.sun.deploy.util.ArrayUtil;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.IOException;
@@ -15,14 +14,14 @@ public class Main {
             .build();
 
     public static void main(String[] args) {
-        int i=0;
-        getRestPlacesByQuery("2",i,RankBy.DISTANCE,PlaceType.BAR,new LatLng(53.1999856, 50.1572578));
+        int i = 0;
+        getRestPlacesByQuery("2", i, RankBy.DISTANCE, PlaceType.BAR, new LatLng(53.1999856, 50.1572578));
 //        getRestPlaces();
 
 //        getDistanceMatrix();
     }
 
-    private static void getPlaces(){
+    private static void getPlaces() {
         NearbySearchRequest request = PlacesApi.nearbySearchQuery(context, new LatLng(53.1999856, 50.1572578));
         try {
             PlacesSearchResponse response = request.radius(500).type(PlaceType.BAR).await();
@@ -33,37 +32,37 @@ public class Main {
     }
 
     //todo много флажковый метод
-    private static void getRestPlacesByQuery(String query, int radius, RankBy rankBy, PlaceType placeType, LatLng location){
+    private static void getRestPlacesByQuery(String query, int radius, RankBy rankBy, PlaceType placeType, LatLng location) {
 //        TextSearchRequest request = PlacesApi.textSearchQuery(context, query);
         System.out.println(radius);
-        if(location!=null && radius!=0){
+        if (location != null && radius != 0) {
 
         }
 
     }
 
-    private static void getRestPlaces(){
+    private static void getRestPlaces() {
         TextSearchRequest request = PlacesApi.textSearchQuery(context, "Самара пляж");
         TextSearchRequest request2 = PlacesApi.textSearchQuery(context, "Казань пляж");
         try {
             PlacesSearchResponse response = request.type(PlaceType.BAR).location(new LatLng(53.1999856, 50.1572578)).rankby(RankBy.DISTANCE).await();
             PlacesSearchResponse response2 = request2.radius(1500).await();
             PlacesSearchResponse total = new PlacesSearchResponse();
-            total.results =  ArrayUtils.addAll(response.results, response2.results);
+            total.results = ArrayUtils.addAll(response.results, response2.results);
             System.out.println(total.results.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private static void getDistanceMatrix(){
+    private static void getDistanceMatrix() {
         String[] origins = new String[1];
         String[] destinations = new String[1];
         origins[0] = "Самара, Ленинградская область";
 //        origins[1] = "Seattle";
         destinations[0] = "Самара, самарская область";
 //        destinations[1] = "Victoria BC";
-        DistanceMatrixApiRequest request = DistanceMatrixApi.getDistanceMatrix(context,origins, destinations);
+        DistanceMatrixApiRequest request = DistanceMatrixApi.getDistanceMatrix(context, origins, destinations);
         try {
             DistanceMatrix distanceMatrix = request.await();
 //            DistanceMatrix distanceMatrix = request.await();
@@ -78,7 +77,7 @@ public class Main {
         }
     }
 
-    private static void getArchitecturalSights(){
+    private static void getArchitecturalSights() {
         getPlaces();
     }
 

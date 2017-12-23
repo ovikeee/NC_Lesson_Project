@@ -1,6 +1,5 @@
 package com.netcracker.ssau.restplacesearcher.controller;
 
-
 import com.google.maps.GeoApiContext;
 import com.google.maps.NearbySearchRequest;
 import com.google.maps.PlacesApi;

@@ -28,13 +28,15 @@ function callback(results, status) {//рисуем на карте все мар
         }
     }
 }
+
 function deleteAllMarkers() {
     for (var i = 0; i < markers.length; i++) {
         markers[i].setMap(null);
     }
     markers = [];
 }
-function findNearbyPlaces(){ //поиск ближайших мест по заданному типу места (placeType)
+
+function findNearbyPlaces() { //поиск ближайших мест по заданному типу места (placeType)
     var pyrmont = {lat: -33.867, lng: 151.195};
     var placeType = document.getElementById('place-type').value;
 
