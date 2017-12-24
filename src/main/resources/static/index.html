@@ -21,18 +21,46 @@
     <div class="form-group mx-sm-3">
         <input type="text" class="form-control" placeholder="Откуда">
     </div>
-    <button type="submit" class="btn btn-info">Найти</button>
+    <button type="submit" class="btn btn-primary">Найти</button>
 </form>
 
 <form id="final-place" class="form-inline">
     <div class="form-group mx-sm-3">
         <input type="text" class="form-control" placeholder="Куда">
     </div>
-    <button type="submit" class="btn btn-info">Мне повезет!</button>
+    <div class="btn-group" role="group">
+        <button type="submit" class="btn btn-primary">Найти</button>
+        <button type="submit" class="btn btn-info">Мне повезет!</button>
+        <button type="submit" class="btn btn-success">Проложить маршрут</button>
+    </div>
 </form>
 
-<form id="find-way" class="form-inline">
-    <button type="submit" class="btn btn-success">Проложить маршрут</button>
+<div class="card" id="flags">
+    <div class="card-body">
+        <label class="form-check-label">
+            <input class="form-check-input" type="radio" name="placeFlags" value="option1">
+            Показать водоемы поблизости
+        </label>
+        <br>
+        <label class="form-check-label">
+            <input class="form-check-input" type="radio" name="placeFlags" value="option2">
+            Показать архитектурные достопримечательности
+        </label>
+        <br>
+        <label class="form-check-label">
+            <input class="form-check-input" type="radio" name="placeFlags" value="option3">
+            Показать знаковые места
+        </label>
+    </div>
+</div>
+
+<form id="find-places" class="form-inline">
+    <div class="form-group mx-sm-3">
+        <input type="text" class="form-control" placeholder="Тип места отдыха">
+    </div>
+    <div class="btn-group" role="group">
+        <button type="submit" class="btn btn-primary">Найти</button>
+    </div>
 </form>
 
 <form id="weather" class="form-inline">
@@ -80,8 +108,8 @@
 </form>
 
 <form id="apply-filters" class="form-inline">
-    <div class="input-group">
-        <button type="submit" class="btn btn-success">Применить фильтры</button>
+    <div class="btn-group" role="group">
+        <button type="submit" class="btn btn-success">Отфильтровать места</button>
     </div>
 </form>
 

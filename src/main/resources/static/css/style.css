@@ -20,30 +20,37 @@
     z-index: 2;
 }
 
-#find-way {
+#flags {
     top: 100px;
-    left: 140px;
+    left: 125px;
+    position: absolute;
+    z-index: 2;
+}
+
+#find-places {
+    bottom: 190px;
+    left: 110px;
     position: absolute;
     z-index: 2;
 }
 
 #weather {
     bottom: 145px;
-    left: 110px;
+    left: 125px;
     position: absolute;
     z-index: 2;
 }
 
 #distance {
     bottom: 100px;
-    left: 110px;
+    left: 125px;
     position: absolute;
     z-index: 2;
 }
 
 #time {
     bottom: 55px;
-    left: 110px;
+    left: 125px;
     position: absolute;
     z-index: 2;
 }
