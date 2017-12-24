@@ -17,7 +17,12 @@ function iAmLucky() {
 }
 
 function findWay() {
-    alert("Way was found!");
+    const start = document.getElementById("start-place-input").value;
+    const final = document.getElementById("final-place-input").value;
+
+    if (start && final) {
+        alert("Way from" + start + " to " + final + " was found!");
+    }
 }
 
 function getWaterPlaces() {
