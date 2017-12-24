@@ -6,9 +6,7 @@
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
 
     <script type="text/javascript" src="googleMap.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB2ifm7v5evu58yCybWWlsKAVl9EoxTlaw&libraries=places&callback=initMap"
@@ -19,31 +17,73 @@
 <body>
 <div id="map"></div>
 
-<div class="panel panel-default">
-    <div class="panel-body">
-        <div id="start-place">
-            <!--TODO Здесь должно быть сразу текущее местоположение пользователя-->
-            <input placeholder="Где вы?" type="text" class="form-control"/>
-        </div>
-        <div id="final-place">
-            <input id="autocomplete" placeholder="Где искать?" type="text" class="form-control"/>
-            <button type="button" class="btn btn-default">Мне повезет!</button>
-        </div>
-        <div id="distance">
-            <input type="checkbox" class="checkbox" id="distance-checkbox"/>
-            <input placeholder="Искать в радиусе, км" type="text" class="form-control"/>
-        </div>
-        <div id="time">
-            <input type="checkbox" class="checkbox" id="time-checkbox"/>
-            <input placeholder="Время в пути до места" type="text" class="form-control"/>
-        </div>
-        <div id="weather">
-            <!--TODO Здесь ползунок с границами-->
-            <input type="checkbox" class="checkbox" id="weather-checkbox"/>
-            <input placeholder="Температурный интервал" type="text" class="form-control"/>
-            <button type="button" class="btn btn-default">Применить фильтры</button>
-        </div>
+<form id="start-place" class="form-inline">
+    <div class="form-group mx-sm-3">
+        <input type="text" class="form-control" placeholder="Откуда">
     </div>
-</div>
+    <button type="submit" class="btn btn-info">Найти</button>
+</form>
+
+<form id="final-place" class="form-inline">
+    <div class="form-group mx-sm-3">
+        <input type="text" class="form-control" placeholder="Куда">
+    </div>
+    <button type="submit" class="btn btn-info">Мне повезет!</button>
+</form>
+
+<form id="find-way" class="form-inline">
+    <button type="submit" class="btn btn-success">Проложить маршрут</button>
+</form>
+
+<form id="weather" class="form-inline">
+    <div class="input-group">
+        <span class="input-group-addon">
+            <input type="checkbox">
+        </span>
+        <select class="form-control">
+            <option>От, °C</option>
+            <option>-20</option>
+            <option>-10</option>
+            <option>0</option>
+            <option>10</option>
+            <option>20</option>
+            <option>30</option>
+        </select>
+        <select class="form-control">
+            <option>До, °C</option>
+            <option>-10</option>
+            <option>0</option>
+            <option>10</option>
+            <option>20</option>
+            <option>30</option>
+            <option>40</option>
+        </select>
+    </div>
+</form>
+
+<form id="distance" class="form-inline">
+    <div class="input-group">
+      <span class="input-group-addon">
+        <input type="checkbox">
+      </span>
+        <input type="text" class="form-control" placeholder="В радиусе, км ">
+    </div>
+</form>
+
+<form id="time" class="form-inline">
+    <div class="input-group">
+      <span class="input-group-addon">
+        <input type="checkbox">
+      </span>
+        <input type="text" class="form-control" placeholder="Время в пути до места">
+    </div>
+</form>
+
+<form id="apply-filters" class="form-inline">
+    <div class="input-group">
+        <button type="submit" class="btn btn-success">Применить фильтры</button>
+    </div>
+</form>
+
 </body>
 </html>

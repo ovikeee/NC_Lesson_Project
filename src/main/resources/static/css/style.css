@@ -7,35 +7,49 @@
 }
 
 #start-place {
-    top: 13px;
-    left: 140px;
+    top: 10px;
+    left: 110px;
     position: absolute;
     z-index: 2;
 }
 
 #final-place {
-    top: 53px;
-    left: 140px;
+    top: 55px;
+    left: 110px;
     position: absolute;
     z-index: 2;
 }
 
-#distance {
-    bottom: 133px;
-    left: 140px;
-    position: absolute;
-    z-index: 2;
-}
-
-#time {
-    bottom: 93px;
+#find-way {
+    top: 100px;
     left: 140px;
     position: absolute;
     z-index: 2;
 }
 
 #weather {
-    bottom: 13px;
+    bottom: 145px;
+    left: 110px;
+    position: absolute;
+    z-index: 2;
+}
+
+#distance {
+    bottom: 100px;
+    left: 110px;
+    position: absolute;
+    z-index: 2;
+}
+
+#time {
+    bottom: 55px;
+    left: 110px;
+    position: absolute;
+    z-index: 2;
+}
+
+#apply-filters {
+    bottom: 10px;
     left: 140px;
     position: absolute;
     z-index: 2;
