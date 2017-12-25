@@ -1,3 +1,9 @@
+let map;
+let autocomplete;
+
+let info;
+let markers = [];
+
 function navigateToStartPlace() {
     const place = document.getElementById("start-place-input").value;
     if (place) {
@@ -51,16 +57,13 @@ function findPlaceByType() {
             "lng": 50.1572578
         },
         success: function (content) {
-            console.log(content);
+            deleteMarkers();
+            content.results.forEach(place => createMarker(place));
         },
         error: function () {
             console.log("error");
         }
     });
-
-    if (placeType) {
-        alert("Place with type " + placeType + " found!");
-    }
 }
 
 function filterByTemperature() {
@@ -105,19 +108,37 @@ function filterPlaces() {
     }
 }
 
-
-function load(objectId, traceMethod, successCallback, failureCallback) {
-    $.ajax({
-        url: "/jrs/osp/ctv/traceconfiguration",
-        dataType: "json",
-        contentType: "application/json",
-        data: {
-            "object": objectId,
-            "trace-method": traceMethod
-        },
-        success: function (content) {
-            successCallback(converter.convert(content));
-        },
-        error: failureCallback
+function initMap() {
+    map = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: 53.1999856, lng: 50.1572578},//Samara
+        zoom: 8
     });
+    initAutocomplete();
+}
+
+// TODO Use
+function initAutocomplete() {
+    autocomplete = new google.maps.places.Autocomplete(
+        document.getElementById('autocomplete'),
+        {types: ['geocode']}
+    );
+}
+
+function createMarker(place) {
+    let marker = new google.maps.Marker({
+        map: map,
+        position: place.geometry.location
+    });
+    google.maps.event.addListener(marker, 'click', function () {
+        info.setContent(place.name);
+        info.open(map, this);
+    });
+    markers.push(marker);
+}
+
+function deleteMarkers() {
+    for (let i = 0; i < markers.length; i++) {
+        markers[i].setMap(null);
+    }
+    markers = [];
 }
