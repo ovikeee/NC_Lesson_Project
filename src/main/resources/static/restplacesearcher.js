@@ -37,7 +37,7 @@ function getBestPlaces() {
     alert("Best Places!");
 }
 
-function findByType() {
+function findPlaceByType() {
     const type = document.getElementById("place-type-input").value;
     if (type) {
         alert("Place with type " + type + " found!");
