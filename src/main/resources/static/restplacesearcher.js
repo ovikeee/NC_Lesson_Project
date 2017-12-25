@@ -4,6 +4,50 @@ let autocomplete;
 let info;
 let markers = [];
 
+function initMap() {
+    let samara = {
+        lat: 53.1999856,
+        lng: 50.1572578
+    };
+
+    map = new google.maps.Map(document.getElementById('map'), {
+        center: samara,
+        zoom: 13
+    });
+    info = new google.maps.InfoWindow();
+    service = new google.maps.places.PlacesService(map);
+
+    // TODO Remove
+    initAutocomplete();
+}
+
+// TODO Use
+function initAutocomplete() {
+    autocomplete = new google.maps.places.Autocomplete(
+        document.getElementById('autocomplete'),
+        {types: ['geocode']}
+    );
+}
+
+function createMarker(place) {
+    let marker = new google.maps.Marker({
+        map: map,
+        position: place.geometry.location
+    });
+    google.maps.event.addListener(marker, 'click', function () {
+        info.setContent(place.name);
+        info.open(map, this);
+    });
+    markers.push(marker);
+}
+
+function deleteMarkers() {
+    for (let i = 0; i < markers.length; i++) {
+        markers[i].setMap(null);
+    }
+    markers = [];
+}
+
 function navigateToStartPlace() {
     const place = document.getElementById("start-place-input").value;
     if (place) {
@@ -52,11 +96,12 @@ function findPlaceByType() {
         contentType: "application/json",
         data: {
             "placeType": placeType,
-            "radius": 1,
+            "radius": 1000,
             "lat": 53.1999856,
             "lng": 50.1572578
         },
         success: function (content) {
+            console.log(content);
             deleteMarkers();
             content.results.forEach(place => createMarker(place));
         },
@@ -106,39 +151,4 @@ function filterPlaces() {
     if (timeFilter === true) {
         filterByTime();
     }
-}
-
-function initMap() {
-    map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: 53.1999856, lng: 50.1572578},//Samara
-        zoom: 8
-    });
-    initAutocomplete();
-}
-
-// TODO Use
-function initAutocomplete() {
-    autocomplete = new google.maps.places.Autocomplete(
-        document.getElementById('autocomplete'),
-        {types: ['geocode']}
-    );
-}
-
-function createMarker(place) {
-    let marker = new google.maps.Marker({
-        map: map,
-        position: place.geometry.location
-    });
-    google.maps.event.addListener(marker, 'click', function () {
-        info.setContent(place.name);
-        info.open(map, this);
-    });
-    markers.push(marker);
-}
-
-function deleteMarkers() {
-    for (let i = 0; i < markers.length; i++) {
-        markers[i].setMap(null);
-    }
-    markers = [];
 }
