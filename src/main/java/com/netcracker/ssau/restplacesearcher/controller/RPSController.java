@@ -25,8 +25,7 @@ public class RPSController {
         PlacesSearchResponse response = null;
         try {
             response = request.location(new LatLng(lat, lng)).radius(radius).await();
-            PlacesSearchResponse total = new PlacesSearchResponse();
-            System.out.println(total.results.toString());
+            System.out.println(response.results.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
