@@ -3,7 +3,7 @@ let autocomplete;
 
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: 53.1999856, lng: 50.1572578},
+        center: {lat: 53.1999856, lng: 50.1572578},//Samara
         zoom: 8
     });
     initAutocomplete();

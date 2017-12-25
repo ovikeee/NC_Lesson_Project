@@ -3,22 +3,43 @@ package com.netcracker.ssau.restplacesearcher.controller;
 import com.google.maps.*;
 import com.google.maps.errors.ApiException;
 import com.google.maps.model.*;
+import com.sun.org.apache.xpath.internal.SourceTree;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.IOException;
 
 public class Main {
+    private static final String placeType = "Пляж";
+    //center: {lat: 53.1999856, lng: 50.1572578},//Samara
+    private static final int radius = 1000; //1000m
+    private static final double lat = 53.1999856;
+    private static final double lng = 50.1572578;
     private static final String APIKey = "AIzaSyB2ifm7v5evu58yCybWWlsKAVl9EoxTlaw";
     private static final GeoApiContext context = new GeoApiContext.Builder()
             .apiKey(APIKey)
             .build();
 
     public static void main(String[] args) {
-        int i = 0;
-        getRestPlacesByQuery("2", i, RankBy.DISTANCE, PlaceType.BAR, new LatLng(53.1999856, 50.1572578));
+        PlacesSearchResponse response = findPlaceByType(placeType, radius, lat, lng);
+        System.out.println(response.results);
+//        getRestPlacesByQuery("2", i, RankBy.DISTANCE, PlaceType.BAR, new LatLng(53.1999856, 50.1572578));
 //        getRestPlaces();
-
 //        getDistanceMatrix();
+    }
+
+
+    //    @RequestMapping(value = "/findPlaceByType", method = RequestMethod.GET)
+    public static PlacesSearchResponse findPlaceByType(String placeType, int radius, double lat, double lng) {
+        TextSearchRequest request = PlacesApi.textSearchQuery(context, placeType);
+        PlacesSearchResponse response = null;
+        try {
+            response = request.location(new LatLng(lat, lng)).radius(radius).await();
+            PlacesSearchResponse total = new PlacesSearchResponse();
+            System.out.println(total.results.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return response;
     }
 
     private static void getPlaces() {
@@ -112,4 +133,60 @@ req.setCallback(new PendingResult.Callback<GeocodingResult[]>() {
     // Handle error.
   }
 });
+
+
+
+
+
         * */
+
+
+//    @RequestMapping(value = "/place", method = RequestMethod.GET)
+//    public PlacesSearchResponse getAllPlaceGet() {
+//        NearbySearchRequest request = PlacesApi.nearbySearchQuery(context, new LatLng(53.1999856, 50.1572578));
+//        PlacesSearchResponse response = null;
+//        try {
+//            response = request.radius(500).type(PlaceType.BAR).await();
+//            System.out.println(response.toString());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return response;
+//    }
+//
+//    @RequestMapping(value = "/places", method = RequestMethod.POST)
+//
+//    /**
+//     * current position
+//     * target position
+//     * time to place ( 30min ... to 1.5h )
+//     * with architectural sights
+//     * -------- weather (от +15 до +25)
+//     * */
+//
+//    public PlacesSearchResponse getAllPlacePost(List<String> flags, double Lat, double Lng, int radius) {
+//        NearbySearchRequest request = PlacesApi.nearbySearchQuery(context, new LatLng(Lat, Lng));
+//        PlacesSearchResponse response = null;
+//        try {
+//            response = request.radius(radius).type(PlaceType.BAR).await();
+//            System.out.println(response.toString());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return response;
+//    }
+//
+//
+//    @RequestMapping(value = "/getLucky", method = RequestMethod.POST)
+//    public PlacesSearchResponse getLucky() {
+//        NearbySearchRequest request = PlacesApi.nearbySearchQuery(context, new LatLng(53.1999856, 50.1572578));
+//        PlacesSearchResponse response = null;
+//        try {
+//            response = request.radius(500).type(PlaceType.BAR).await();
+//            System.out.println(response.toString());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return response; //return one field
+//    }
+//
