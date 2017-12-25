@@ -1,19 +1,13 @@
 package com.netcracker.ssau.restplacesearcher.controller;
 
 import com.google.maps.GeoApiContext;
-import com.google.maps.NearbySearchRequest;
 import com.google.maps.PlacesApi;
 import com.google.maps.TextSearchRequest;
 import com.google.maps.model.LatLng;
-import com.google.maps.model.PlaceType;
 import com.google.maps.model.PlacesSearchResponse;
-import com.google.maps.model.RankBy;
-import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 public class RPSController {
@@ -38,5 +32,6 @@ public class RPSController {
         }
         return response;
     }
+
 
 }
