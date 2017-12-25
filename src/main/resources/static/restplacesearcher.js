@@ -4,6 +4,11 @@ let autocomplete;
 let info;
 let markers = [];
 
+function initialize() {
+    initMap();
+    initAutocomplete();
+}
+
 function initMap() {
     let samara = {
         lat: 53.1999856,
@@ -16,13 +21,33 @@ function initMap() {
     });
     info = new google.maps.InfoWindow();
     service = new google.maps.places.PlacesService(map);
-
-    // TODO Remove
-    initAutocomplete();
 }
 
-// TODO Use
 function initAutocomplete() {
+
+    /*
+    *
+        let input = document.getElementById("start-place");
+        let searchBox = new google.maps.places.SearchBox(input);
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+        map.addListener("bounds_changed", function() {
+            searchBox.setBounds(map.getBounds());
+        });
+
+        searchBox.addListener("places_changed", function() {
+            let places = searchBox.getPlaces();
+
+            if (places.length === 0) {
+                return;
+            }
+
+            map.fitBounds(bounds);
+        });
+        console.log("autocompl init");
+    *
+    * */
+
     autocomplete = new google.maps.places.Autocomplete(
         document.getElementById('autocomplete'),
         {types: ['geocode']}
@@ -106,7 +131,7 @@ function findPlaceByType() {
             content.results.forEach(place => createMarker(place));
         },
         error: function () {
-            console.log("error");
+            console.log("findPlaceByType -> no data");
         }
     });
 }
