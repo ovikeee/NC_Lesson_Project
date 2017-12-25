@@ -3,7 +3,6 @@ package com.netcracker.ssau.restplacesearcher.controller;
 import com.google.maps.*;
 import com.google.maps.errors.ApiException;
 import com.google.maps.model.*;
-import com.sun.org.apache.xpath.internal.SourceTree;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.IOException;

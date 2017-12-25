@@ -38,9 +38,28 @@ function getBestPlaces() {
 }
 
 function findPlaceByType() {
-    const type = document.getElementById("place-type-input").value;
-    if (type) {
-        alert("Place with type " + type + " found!");
+    const placeType = document.getElementById("place-type-input").value;
+
+    $.ajax({
+        url: "/findPlaceByType",
+        dataType: "json",
+        contentType: "application/json",
+        data: {
+            "placeType": placeType,
+            "radius": 1,
+            "lat": 53.1999856,
+            "lng": 50.1572578
+        },
+        success: function (content) {
+            console.log(content);
+        },
+        error: function () {
+            console.log("error");
+        }
+    });
+
+    if (placeType) {
+        alert("Place with type " + placeType + " found!");
     }
 }
 
@@ -84,4 +103,21 @@ function filterPlaces() {
     if (timeFilter === true) {
         filterByTime();
     }
+}
+
+
+function load(objectId, traceMethod, successCallback, failureCallback) {
+    $.ajax({
+        url: "/jrs/osp/ctv/traceconfiguration",
+        dataType: "json",
+        contentType: "application/json",
+        data: {
+            "object": objectId,
+            "trace-method": traceMethod
+        },
+        success: function (content) {
+            successCallback(converter.convert(content));
+        },
+        error: failureCallback
+    });
 }
