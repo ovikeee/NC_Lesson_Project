@@ -6,11 +6,19 @@
     z-index: 1;
 }
 
-#weather-widget {
+#current-place {
     top: 10px;
     right: 50px;
     position: absolute;
     z-index: 2;
+}
+
+#weather-widget {
+    top: 55px;
+    right: 50px;
+    position: absolute;
+    z-index: 2;
+    display: none;
 }
 
 #start-place {

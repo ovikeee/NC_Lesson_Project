@@ -30,20 +30,24 @@
                     <div class="booked-wzs-160-275-right">
                         <div class="booked-wzs-day-deck">
                             <div class="booked-wzs-day-val">
-                                <div class="booked-wzs-day-number">-4</div> <!--  сегодняшняя погода  -->
+                                <div id="today-temperature" class="booked-wzs-day-number">-4</div>
+                                <!--  сегодняшняя погода  -->
                                 <div class="booked-wzs-day-dergee">
                                     <div class="booked-wzs-day-dergee-val">&deg;</div>
                                     <div class="booked-wzs-day-dergee-name">C</div>
                                 </div>
                             </div>
                             <div class="booked-wzs-day"> <!--  сегодняшняя погода  -->
-                                <div class="booked-wzs-day-d">-4&deg;</div>  <!--  сегодняшняя погода день  -->
-                                <div class="booked-wzs-day-n">-4&deg;</div> <!--  сегодняшняя погода ночь -->
+                                <div id="today-temperature-day" class="booked-wzs-day-d">-4&deg;</div>
+                                <!--  сегодняшняя погода день  -->
+                                <div id="today-temperature-night" class="booked-wzs-day-n">-4&deg;</div>
+                                <!--  сегодняшняя погода ночь -->
                             </div>
                         </div>
                         <div class="booked-wzs-160-275-info">
-                            <div class="booked-wzs-160-275-city">Самара</div>  <!-- город  -->
-                            <div class="booked-wzs-160-275-date">Вторник, 26</div> <!-- день недели, дата  -->
+                            <div id="location-city" class="booked-wzs-160-275-city">Самара</div>  <!-- город  -->
+                            <div id="weekday" class="booked-wzs-160-275-date">Вторник, 26</div>
+                            <!-- день недели, дата  -->
                         </div>
                     </div>
                 </div>
@@ -51,13 +55,16 @@
                     <table cellpadding="0" cellspacing="0" class="booked-wzs-table-160">
                         <tr>
                             <td class="week-day"><span class="week-day-txt">Средняя температура</span></td>
-                            <td class="week-day-val">-4&deg;</td> <!-- погода на пн день  -->
-                            <td class="week-day-val">-4&deg;</td> <!-- погода на пн ночь  -->
+                            <td id="temperature-day" class="week-day-val">-4&deg;</td>
+                            <!-- средняя температура день  -->
+                            <td id="temperature-night" class="week-day-val">-4&deg;</td>
+                            <!-- средняя температура ночь  -->
                         </tr>
                         <tr>
                             <td class="week-day"><span class="week-day-txt">Средние осадки</span></td>
-                            <td class="week-day-val"><span class="plus">+</span>2&deg;</td><!-- погода на вт день  -->
-                            <td class="week-day-val">-6&deg;</td><!-- погода на вт ночь  -->
+                            <td id="rainfall-day" class="week-day-val"><span class="plus">+</span>2&deg;</td>
+                            <!-- осадки день  -->
+                            <td id="rainfall-night" class="week-day-val">-6&deg;</td><!-- осадки ночь  -->
                         </tr>
                     </table>
                 </a>
@@ -66,6 +73,15 @@
     </div>
 </div>
 
+<form id="current-place" class="form-inline">
+    <div class="card">
+        <input id="current-place-input" class="form-control" type="text" placeholder="Самара" readonly>
+    </div>
+    <button id="update-weather-button" type="button" class="btn btn-primary" onclick="getWeatherData()">Получить
+        сведения о погоде
+    </button>
+</form>
+
 <form id="start-place" class="form-inline">
     <div class="form-group mx-sm-3">
         <input id="start-place-input" type="text" class="form-control" placeholder="Откуда">
@@ -73,7 +89,6 @@
     <button id="start-place-button" type="button" class="btn btn-primary" onclick="navigateToStartPlace()">Найти
     </button>
 </form>
-
 
 <form id="final-place" class="form-inline">
     <div class="form-group mx-sm-3">
