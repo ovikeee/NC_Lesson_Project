@@ -81,9 +81,24 @@ function navigateToStartPlace() {
 }
 
 function navigateToFinalPlace() {
-    const place = document.getElementById("final-place-input").value;
-    if (place) {
-        alert("Navigate to " + place);
+    const finalPlaceInput = document.getElementById("final-place-input");
+    const finalPlaceButton = document.getElementById("final-place-button");
+
+    let searchBox = new google.maps.places.SearchBox(finalPlaceInput);
+
+    // TODO Fix error for click on button without selecting place
+    if (finalPlaceInput.value) {
+        finalPlaceButton.addEventListener("click", function () {
+            let place = searchBox.getPlaces()[searchBox.getPlaces().length - 1];
+            let bounds = new google.maps.LatLngBounds();
+            bounds.extend(place.geometry.location);
+            _map.fitBounds(bounds);
+            _map.setZoom(13);
+            _currentPlace = {
+                lat: place.geometry.location.lat(),
+                lng: place.geometry.location.lng()
+            };
+        });
     }
 }
 
