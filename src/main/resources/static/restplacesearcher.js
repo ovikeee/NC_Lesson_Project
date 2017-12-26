@@ -121,7 +121,7 @@ function findWay() {
 }
 
 function getBeachPlaces() {
-    findPlaces("пляжи", 1000);
+    findPlaces("пляж", 1000);
 }
 
 function getArchitecturePlaces() {
