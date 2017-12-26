@@ -43,40 +43,56 @@
 }
 
 #place-type {
-    bottom: 190px;
+    bottom: 202px;
     left: 110px;
     position: absolute;
     z-index: 2;
 }
 
 #weather {
-    bottom: 145px;
+    bottom: 157px;
     left: 125px;
     position: absolute;
     z-index: 2;
 }
 
 #distance {
-    bottom: 100px;
+    bottom: 112px;
     left: 125px;
     position: absolute;
     z-index: 2;
 }
 
 #time {
-    bottom: 55px;
+    bottom: 67px;
     left: 125px;
     position: absolute;
     z-index: 2;
 }
 
 #apply-filters {
-    bottom: 10px;
+    bottom: 22px;
     left: 140px;
     position: absolute;
     z-index: 2;
 }
 
+#place-list {
+    bottom: 22px;
+    right: 50px;
+    position: absolute;
+    z-index: 2;
+
+    width: 20rem;
+}
+
+.card-header {
+    padding: 0.25rem;
+}
+
+.list-group-item {
+    padding: 0.25rem;
+}
 /* Optional: Makes the sample page fill the window. */
 html, body {
     height: 100%;

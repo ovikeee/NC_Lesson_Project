@@ -52,7 +52,7 @@
                     </div>
                 </div>
                 <a class="booked-wzs-bottom-160-275">
-                    <table cellpadding="0" cellspacing="0" class="booked-wzs-table-160">
+                    <table id="weather-table" cellpadding="0" cellspacing="0" class="booked-wzs-table-160">
                         <tr>
                             <td class="week-day"><span class="week-day-txt">Средняя температура</span></td>
                             <td id="temperature-day" class="week-day-val">-4&deg;</td>
@@ -62,9 +62,9 @@
                         </tr>
                         <tr>
                             <td class="week-day"><span class="week-day-txt">Средние осадки</span></td>
-                            <td id="rainfall-day" class="week-day-val"><span class="plus">+</span>2&deg;</td>
+                            <td id="precipitation-day" class="week-day-val"><span class="plus">+</span>2&deg;</td>
                             <!-- осадки день  -->
-                            <td id="rainfall-night" class="week-day-val">-6&deg;</td><!-- осадки ночь  -->
+                            <td id="precipitation-night" class="week-day-val">-6&deg;</td><!-- осадки ночь  -->
                         </tr>
                     </table>
                 </a>
@@ -77,8 +77,8 @@
     <div class="card">
         <input id="current-place-input" class="form-control" type="text" placeholder="Самара" readonly>
     </div>
-    <button id="update-weather-button" type="button" class="btn btn-primary" onclick="getWeatherData()">Получить
-        сведения о погоде
+    <button id="update-weather-button" type="button" class="btn btn-success" onclick="getWeatherData()">
+        Получить сведения о погоде
     </button>
 </form>
 
@@ -86,7 +86,8 @@
     <div class="form-group mx-sm-3">
         <input id="start-place-input" type="text" class="form-control" placeholder="Откуда">
     </div>
-    <button id="start-place-button" type="button" class="btn btn-primary" onclick="navigateToStartPlace()">Найти
+    <button id="start-place-button" type="button" class="btn btn-primary" onclick="navigateToStartPlace()">
+        Найти
     </button>
 </form>
 
@@ -95,28 +96,33 @@
         <input id="final-place-input" type="text" class="form-control" placeholder="Куда">
     </div>
     <div class="btn-group" role="group">
-        <button id="final-place-button" type="button" class="btn btn-primary" onclick="navigateToFinalPlace()">Найти
+        <button id="final-place-button" type="button" class="btn btn-primary" onclick="navigateToFinalPlace()">
+            Найти
         </button>
-        <button type="button" class="btn btn-info" onclick="iAmLucky()">Мне повезет!</button>
-        <button type="button" class="btn btn-success" onclick="findWay()">Проложить маршрут</button>
+        <button type="button" class="btn btn-info" onclick="iAmLucky()">
+            Мне повезет!
+        </button>
+        <button type="button" class="btn btn-success" onclick="findWay()">
+            Проложить маршрут
+        </button>
     </div>
 </form>
 
 <div class="card" id="flags">
     <div class="card-body">
         <label class="form-check-label">
-            <input class="form-check-input" type="radio" name="placeFlags" value="option1" onclick="getBeachPlaces()">
+            <input class="form-check-input" type="radio" name="placeFlags" value="option1" onclick="findBeaches()">
             Показать пляжи
         </label>
         <br>
         <label class="form-check-label">
             <input class="form-check-input" type="radio" name="placeFlags" value="option2"
-                   onclick="getArchitecturePlaces()">
+                   onclick="findArchitectures()">
             Показать достопримечательности
         </label>
         <br>
         <label class="form-check-label">
-            <input class="form-check-input" type="radio" name="placeFlags" value="option3" onclick="getMuseumsPlaces()">
+            <input class="form-check-input" type="radio" name="placeFlags" value="option3" onclick="findMuseums()">
             Показать музеи
         </label>
     </div>
@@ -127,7 +133,9 @@
         <input id="place-type-input" type="text" class="form-control" placeholder="Тип места отдыха">
     </div>
     <div class="btn-group" role="group">
-        <button type="button" class="btn btn-primary" onclick="findPlaceByType()">Найти</button>
+        <button type="button" class="btn btn-primary" onclick="findPlaceByType()">
+            Найти
+        </button>
     </div>
 </form>
 
@@ -177,10 +185,11 @@
 
 <form id="apply-filters" class="form-inline">
     <div class="btn-group" role="group">
-        <button type="button" class="btn btn-success" onclick="filterPlaces()">Отфильтровать места</button>
+        <button type="button" class="btn btn-success" onclick="filterPlaces()">
+            Отфильтровать места
+        </button>
     </div>
 </form>
-
 
 </body>
 </html>

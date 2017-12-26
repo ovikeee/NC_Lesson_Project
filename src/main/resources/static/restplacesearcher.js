@@ -6,6 +6,7 @@ let _markers = [];
 
 let _currentPlace;
 let _currentPlaceName;
+let _currentPlaces = [];
 
 function initialize() {
     initMap();
@@ -124,15 +125,15 @@ function findWay() {
     }
 }
 
-function getBeachPlaces() {
+function findBeaches() {
     findPlaces("пляж", 1000);
 }
 
-function getArchitecturePlaces() {
+function findArchitectures() {
     findPlaces("достопримечательности", 1000);
 }
 
-function getMuseumsPlaces() {
+function findMuseums() {
     findPlaces("музеи", 1000);
 }
 
@@ -156,7 +157,9 @@ function findPlaces(type, radius) {
         success: function (content) {
             console.log(content);
             deleteMarkers();
-            content.results.forEach(place => createMarker(place));
+            _currentPlaces = content.results;
+            _currentPlaces.forEach(place => createMarker(place));
+            setPlaceListContent();
         },
         error: function () {
             console.log("findPlaces by" + type + " -> no data");
@@ -165,7 +168,6 @@ function findPlaces(type, radius) {
 }
 
 function getWeatherData() {
-    document.getElementById("weather-widget").style.display = 'block';
     $.ajax({
         url: "/getWeatherData",
         dataType: "json",
@@ -176,11 +178,67 @@ function getWeatherData() {
         },
         success: function (content) {
             console.log(content);
+            setWeatherWidgetContent(
+                content.dateToday,
+                content.weekDay,
+                content.city,
+                content.todayNow,
+                content.todayDay,
+                content.todayNight,
+                content.averageTemperatureDay,
+                content.averageTemperatureNight,
+                content.averagePrecipitation
+            );
+            document.getElementById("weather-widget").style.display = 'block';
         },
         error: function () {
             console.log("getWeatherData -> no data");
         }
     });
+}
+
+function setWeatherWidgetContent(dateToday, weekDay, city, todayNow, todayDay, todayNight, averageTemperatureDay, averageTemperatureNight, averagePrecipitation) {
+    document.getElementById("today-temperature").innerHTML = todayNow;
+    document.getElementById("today-temperature-day").innerHTML = todayDay;
+    document.getElementById("today-temperature-night").innerHTML = todayNight;
+    document.getElementById("location-city").innerHTML = city;
+    document.getElementById("weekday").innerHTML = weekDay + ", " + dateToday;
+
+
+    let $table = $("table tr");
+    $("td", $table.eq(0)).eq(1).text(averageTemperatureDay + "°C");
+    $("td", $table.eq(0)).eq(2).text(averageTemperatureNight + "°C");
+    $("td", $table.eq(1)).eq(1).text(averagePrecipitation + "°C");
+    $("td", $table.eq(1)).eq(2).text("");
+}
+
+function setPlaceListContent() {
+    $("#place-list").remove();
+
+    let placeListDiv = document.createElement("div");
+    placeListDiv.id = "place-list";
+    placeListDiv.className = "card";
+
+    let placeListHeaderDiv = document.createElement("div");
+    placeListHeaderDiv.id = "card-header";
+    placeListHeaderDiv.innerText = "Найденные места";
+
+    placeListDiv.appendChild(placeListHeaderDiv);
+
+    let listUL = document.createElement("ul");
+    listUL.className = "list-group list-group-flush";
+
+    if (_currentPlaces.length !== 0) {
+        _currentPlaces.forEach(place => {
+            let elementLI = document.createElement("li");
+            elementLI.className = "list-group-item";
+            elementLI.innerText = place.name;
+            listUL.appendChild(elementLI);
+        });
+    }
+
+    placeListDiv.appendChild(listUL);
+    document.body.appendChild(placeListDiv);
 }
 
 
