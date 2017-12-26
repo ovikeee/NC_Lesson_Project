@@ -51,11 +51,6 @@ function initDirection() {
     _directionsDisplay = new google.maps.DirectionsRenderer;
     _directionsService = new google.maps.DirectionsService;
     _directionsDisplay.setMap(_map);
-
-    //calculateAndDisplayRoute(_directionsService, _directionsDisplay);
-    /*document.getElementById('mode').addEventListener('change', function () {
-        calculateAndDisplayRoute(_directionsService, _directionsDisplay);
-    });*/
 }
 
 function createMarker(place) {
@@ -160,17 +155,17 @@ function findPlaceByType() {
 }
 
 function calculateAndDisplayRoute(startPlace, finalPlace) {
-    //var selectedMode = document.getElementById('mode').value;
+    let selectedMode = document.getElementById("mode").value;
     _directionsService.route({
         origin: startPlace,
         destination: finalPlace,
-        travelMode: google.maps.TravelMode["DRIVING"]
+        travelMode: google.maps.TravelMode[selectedMode]
     }, function (response, status) {
         console.log(response);
         if (status == 'OK') {
             _directionsDisplay.setDirections(response);
         } else {
-            window.alert('Directions request failed due to ' + status);
+            alert("Не удается построить маршрут!");
         }
     });
 }
