@@ -119,28 +119,32 @@ function findWay() {
     }
 }
 
-function getWaterPlaces() {
-    alert("Water Places!");
+function getBeachPlaces() {
+    findPlaces("пляжи", 1000);
 }
 
 function getArchitecturePlaces() {
-    alert("Architecture Places!");
+    findPlaces("достопримечательности", 1000);
 }
 
-function getBestPlaces() {
-    alert("Best Places!");
+function getMuseumsPlaces() {
+    findPlaces("музеи", 1000);
 }
 
 function findPlaceByType() {
     const placeType = document.getElementById("place-type-input").value;
+    // TODO Remove hard radius
+    findPlaces(placeType, 1000);
+}
 
+function findPlaces(type, radius) {
     $.ajax({
         url: "/findPlaceByType",
         dataType: "json",
         contentType: "application/json",
         data: {
-            "placeType": placeType,
-            "radius": 1000,
+            "placeType": type,
+            "radius": radius,
             "lat": _currentPlace.lat,
             "lng": _currentPlace.lng
         },
@@ -150,7 +154,7 @@ function findPlaceByType() {
             content.results.forEach(place => createMarker(place));
         },
         error: function () {
-            console.log("findPlaceByType -> no data");
+            console.log("findPlaces by" + type + " -> no data");
         }
     });
 }
