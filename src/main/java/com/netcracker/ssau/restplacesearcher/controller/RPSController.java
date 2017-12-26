@@ -1,8 +1,8 @@
 package com.netcracker.ssau.restplacesearcher.controller;
 
-import com.google.maps.GeoApiContext;
-import com.google.maps.PlacesApi;
-import com.google.maps.TextSearchRequest;
+import com.google.maps.*;
+import com.google.maps.errors.ApiException;
+import com.google.maps.model.DistanceMatrix;
 import com.google.maps.model.LatLng;
 import com.google.maps.model.PlacesSearchResponse;
 import com.netcracker.ssau.restplacesearcher.model.WeatherData;
@@ -102,6 +102,30 @@ public class RPSController {
         }
         return weatherData;
     }
+
+    @RequestMapping(value = "/getDistanceMatrix", method = RequestMethod.GET)
+    private static DistanceMatrix getDistanceMatrix(String origin, String destinationLng) {
+        String[] origins = new String[1];
+        String[] destinations = new String[1];
+        DistanceMatrix distanceMatrix = null;
+        origins[0] = origin;
+//        origins[1] = "Seattle";
+        destinations[0] = destinationLng;
+//        destinations[1] = "Victoria BC";
+        DistanceMatrixApiRequest request = DistanceMatrixApi.getDistanceMatrix(context, origins, destinations);
+        try {
+            distanceMatrix = request.await();
+            System.out.println(distanceMatrix.toString());
+        } catch (ApiException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return distanceMatrix;
+    }
+
 
     private static String getCurrentWeatherData(double lat, double lon) throws IOException {
         return performRequest("http://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&" + WEATHER_API_KEY);
