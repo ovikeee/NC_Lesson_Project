@@ -8,9 +8,14 @@ let _currentPlace;
 let _currentPlaceName;
 let _currentPlaces = [];
 
+let _directionsDisplay;
+let _directionsService;
+
 function initialize() {
     initMap();
     initAutocomplete();
+
+    initDirection();
 }
 
 function initMap() {
@@ -40,6 +45,17 @@ function initAutocomplete() {
             {types: ["(regions)"]}
         )
     );
+}
+
+function initDirection() {
+    _directionsDisplay = new google.maps.DirectionsRenderer;
+    _directionsService = new google.maps.DirectionsService;
+    _directionsDisplay.setMap(_map);
+
+    //calculateAndDisplayRoute(_directionsService, _directionsDisplay);
+    /*document.getElementById('mode').addEventListener('change', function () {
+        calculateAndDisplayRoute(_directionsService, _directionsDisplay);
+    });*/
 }
 
 function createMarker(place) {
@@ -121,7 +137,7 @@ function findWay() {
     const final = document.getElementById("final-place-input").value;
 
     if (start && final) {
-        alert("Way from" + start + " to " + final + " was found!");
+        calculateAndDisplayRoute(start, final);
     }
 }
 
@@ -141,6 +157,22 @@ function findPlaceByType() {
     const placeType = document.getElementById("place-type-input").value;
     // TODO Remove hard radius
     findPlaces(placeType, 1000);
+}
+
+function calculateAndDisplayRoute(startPlace, finalPlace) {
+    //var selectedMode = document.getElementById('mode').value;
+    _directionsService.route({
+        origin: startPlace,
+        destination: finalPlace,
+        travelMode: google.maps.TravelMode["DRIVING"]
+    }, function (response, status) {
+        console.log(response);
+        if (status == 'OK') {
+            _directionsDisplay.setDirections(response);
+        } else {
+            window.alert('Directions request failed due to ' + status);
+        }
+    });
 }
 
 function findPlaces(type, radius) {
@@ -280,20 +312,5 @@ function filterPlaces() {
     }
     if (timeFilter === true) {
         filterByTime();
-    }
-}
-
-function setWidgetData(data) {
-    if (typeof(data) != 'undefined' && data.results.length > 0) {
-        for (var i = 0; i < data.results.length; ++i) {
-            var objMainBlock = document.getElementById('m-booked-bl-simple-week-vertical-65350');
-            if (objMainBlock !== null) {
-                var copyBlock = document.getElementById('m-bookew-weather-copy-' + data.results[i].widget_type);
-                objMainBlock.innerHTML = data.results[i].html_code;
-                if (copyBlock !== null) objMainBlock.appendChild(copyBlock);
-            }
-        }
-    } else {
-        alert('data=undefined||data.results is empty');
     }
 }
