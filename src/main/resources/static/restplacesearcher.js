@@ -64,7 +64,7 @@ function navigateToStartPlace() {
 
     let searchBox = new google.maps.places.SearchBox(startPlaceInput);
 
-    // TODO Fix error for if place repeats
+    // TODO Fix error for click on button without selecting place
     if (startPlaceInput.value) {
         startPlaceButton.addEventListener("click", function () {
             let place = searchBox.getPlaces()[searchBox.getPlaces().length - 1];
@@ -72,6 +72,10 @@ function navigateToStartPlace() {
             bounds.extend(place.geometry.location);
             _map.fitBounds(bounds);
             _map.setZoom(13);
+            _currentPlace = {
+                lat: place.geometry.location.lat(),
+                lng: place.geometry.location.lng()
+            };
         });
     }
 }
@@ -118,8 +122,8 @@ function findPlaceByType() {
         data: {
             "placeType": placeType,
             "radius": 1000,
-            "lat": 53.1999856,
-            "lng": 50.1572578
+            "lat": _currentPlace.lat,
+            "lng": _currentPlace.lng
         },
         success: function (content) {
             console.log(content);
