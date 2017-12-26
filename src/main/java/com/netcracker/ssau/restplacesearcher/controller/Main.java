@@ -18,6 +18,8 @@ import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Main {
     private static final String placeType = "Пляж";
@@ -35,17 +37,17 @@ public class Main {
 
     public static void main(String[] args) {
 
-
-        try {
-            DirectionsResult directionsResult = DirectionsApi.getDirections(context, "Samara", "Moscow").await();
-            System.out.println(directionsResult);
-        } catch (ApiException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        getDistance("Samara", "Moscow");
+//        try {
+//            DirectionsResult directionsResult = DirectionsApi.getDirections(context, "Samara", "Moscow").await();
+//            System.out.println(directionsResult);
+//        } catch (ApiException e) {
+//            e.printStackTrace();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
 
 //        lat: 53.1999856,
@@ -251,6 +253,30 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private static Map<String, String> getDistance(String origin, String destination) {
+        Map<String, String> map = new HashMap<>();
+        DistanceMatrix distanceMatrix = null;
+        String[] orign = new String[1];
+        String[] dest = new String[1];
+        orign[0] = origin;
+        dest[0] = destination;
+        try {
+            distanceMatrix = DistanceMatrixApi.getDistanceMatrix(context, orign, dest).await();
+
+            DistanceMatrixElement element = distanceMatrix.rows[0].elements[0];
+            map.put("distance", String.valueOf(element.distance.humanReadable));
+            map.put("duration", String.valueOf(element.duration.humanReadable));
+            map.put("cost", String.valueOf(element.distance.inMeters / 100000 * 12 * 40));
+        } catch (ApiException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return map;
     }
 
     private static void getDistanceMatrix() {

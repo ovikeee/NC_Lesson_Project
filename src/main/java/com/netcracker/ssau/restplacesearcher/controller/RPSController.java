@@ -1,11 +1,12 @@
 package com.netcracker.ssau.restplacesearcher.controller;
 
-import com.google.maps.DirectionsApi;
+import com.google.maps.DistanceMatrixApi;
 import com.google.maps.GeoApiContext;
 import com.google.maps.PlacesApi;
 import com.google.maps.TextSearchRequest;
 import com.google.maps.errors.ApiException;
-import com.google.maps.model.DirectionsResult;
+import com.google.maps.model.DistanceMatrix;
+import com.google.maps.model.DistanceMatrixElement;
 import com.google.maps.model.LatLng;
 import com.google.maps.model.PlacesSearchResponse;
 import com.netcracker.ssau.restplacesearcher.model.WeatherData;
@@ -25,26 +26,28 @@ import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 public class RPSController {
-    private static final String placeType = "Пляж";
+    private final String placeType = "Пляж";
     //center: {lat: 53.1999856, lng: 50.1572578},//Samara
-    private static final int radius = 1000; //1000m
-    private static final String APIKey = "AIzaSyDM8J5cXMLFnrVt0Il99BwvVotBpx9dmtc";
+    private final int radius = 1000; //1000m
+    private final String APIKey = "AIzaSyDM8J5cXMLFnrVt0Il99BwvVotBpx9dmtc";
     //AIzaSyB2ifm7v5evu58yCybWWlsKAVl9EoxTlaw
-    private static final String WEATHER_API_KEY = "appid=b089342ff727fbb2fc357f71779ba4d3";
-    private static final double CONVERT_TO_TORR_COEF = 0.00750062;
+    private final String WEATHER_API_KEY = "appid=b089342ff727fbb2fc357f71779ba4d3";
+    private final double CONVERT_TO_TORR_COEF = 0.00750062;
 
 
-    private static final GeoApiContext context = new GeoApiContext.Builder()
+    private final GeoApiContext context = new GeoApiContext.Builder()
             .apiKey(APIKey)
             .build();
 
 
     @RequestMapping(value = "/findPlaceByType", method = RequestMethod.GET)
 
-    public static PlacesSearchResponse findPlaceByType(String placeType, int radius, double lat, double lng) {
+    public PlacesSearchResponse findPlaceByType(String placeType, int radius, double lat, double lng) {
         TextSearchRequest request = PlacesApi.textSearchQuery(context, placeType);
         PlacesSearchResponse response = null;
         try {
@@ -58,7 +61,7 @@ public class RPSController {
 
 
     @RequestMapping(value = "/getWeatherData", method = RequestMethod.GET)
-    public static WeatherData getWeatherData(double lat, double lng) {
+    public WeatherData getWeatherData(double lat, double lng) {
         WeatherData weatherData = null;
 
         try {
@@ -107,10 +110,20 @@ public class RPSController {
     }
 
     @RequestMapping(value = "/getDistanceMatrix", method = RequestMethod.GET)
-    private static DirectionsResult getDistanceMatrix(String origin, String destination) {
-        DirectionsResult directionsResult = null;
+    private Map<String, String> getDistance(String origin, String destination) {
+        Map<String, String> map = new HashMap<>();
+        DistanceMatrix distanceMatrix = null;
+        String[] orign = new String[1];
+        String[] dest = new String[1];
+        orign[0] = origin;
+        dest[0] = destination;
         try {
-            directionsResult = DirectionsApi.getDirections(context, origin, destination).await();
+            distanceMatrix = DistanceMatrixApi.getDistanceMatrix(context, orign, dest).await();
+
+            DistanceMatrixElement element = distanceMatrix.rows[0].elements[0];
+            map.put("distance", String.valueOf(element.distance.humanReadable));
+            map.put("duration", String.valueOf(element.duration.humanReadable));
+            map.put("cost", String.valueOf(element.distance.inMeters / 100000 * 12 * 40));
         } catch (ApiException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -118,24 +131,24 @@ public class RPSController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return directionsResult;
+        return map;
     }
 
 
-    private static String getCurrentWeatherData(double lat, double lon) throws IOException {
+    private String getCurrentWeatherData(double lat, double lon) throws IOException {
         return performRequest("http://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&" + WEATHER_API_KEY);
     }
 
 
     //API key = b089342ff727fbb2fc357f71779ba4d3
     //http://api.openweathermap.org/data/2.5/history/city?lat=41.85&lon=-87.65&appid=b089342ff727fbb2fc357f71779ba4d3
-    private static String getHistoricalWeatherData(double lat, double lon) throws IOException {
+    private String getHistoricalWeatherData(double lat, double lon) throws IOException {
         return performRequest("http://samples.openweathermap.org/data/2.5/history/city?lat=41.85&lon=-87.65&appid=b1b15e88fa797225412429c1c50c122a1");
         //(http://api.openweathermap.org/data/2.5/history/city?lat=" + lat + "&lon=" + lon + "&" + WEATHER_API_KEY);
 
     }
 
-    private static String performRequest(String url) throws IOException {
+    private String performRequest(String url) throws IOException {
         HttpClient httpClient = HttpClientBuilder.create().build(); //Use this instead
         HttpGet request = new HttpGet(url);
         request.addHeader("content-type", "application/x-www-form-urlencoded");
@@ -149,15 +162,15 @@ public class RPSController {
         return responseStrBuilder.toString();
     }
 
-    private static int kelvinToCelsius(double kellvin) {
+    private int kelvinToCelsius(double kellvin) {
         return (int) Math.round(kellvin) - 273;
     }
 
-    private static String getCity() {
+    private String getCity() {
         return "Самара";
     }
 
-    private static String getCurrentWeekDay() {
+    private String getCurrentWeekDay() {
         Date dateNow = new Date();
         Calendar c = Calendar.getInstance();
         c.setTime(dateNow);
@@ -183,14 +196,14 @@ public class RPSController {
     }
 
 
-    private static int getCurrentDay() {
+    private int getCurrentDay() {
         Date dateNow = new Date();
         SimpleDateFormat formatForDateNow = new SimpleDateFormat("d");
         System.out.println("Текущая дата " + formatForDateNow.format(dateNow));
         return Integer.valueOf(formatForDateNow.format(dateNow));
     }
 
-    private static String getDate(long date) {
+    private String getDate(long date) {
         System.out.println("date millsec " + date);
         Date dateNow = new Date(date * 1000L);
         SimpleDateFormat formatForDateNow = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
