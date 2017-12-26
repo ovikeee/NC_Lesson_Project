@@ -4,6 +4,12 @@ var service;
 var markers = [];
 
 function initMap() {
+
+
+    var directionsDisplay;
+    var directionsService = new google.maps.DirectionsService();
+
+
     var pyrmont = {lat: -33.867, lng: 151.195}; //текущее положение карты
 
     map = new google.maps.Map(document.getElementById('map'), { //получение карты и задание параметров
@@ -19,7 +25,22 @@ function initMap() {
         type: ['bank'] //тип места
     }, callback);
 
-    getWeatherData();
+
+    var start = "Samara";
+    var end = "Moscow";
+    var request = {
+        origin: start,
+        destination: end,
+        travelMode: 'DRIVING'
+    };
+    directionsService.route(request, function (result, status) {
+        if (status == 'OK') {
+            directionsDisplay.setDirections(result);
+        }
+    });
+
+
+    // getWeatherData();
 
 }
 

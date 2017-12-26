@@ -1,8 +1,11 @@
 package com.netcracker.ssau.restplacesearcher.controller;
 
-import com.google.maps.*;
+import com.google.maps.DirectionsApi;
+import com.google.maps.GeoApiContext;
+import com.google.maps.PlacesApi;
+import com.google.maps.TextSearchRequest;
 import com.google.maps.errors.ApiException;
-import com.google.maps.model.DistanceMatrix;
+import com.google.maps.model.DirectionsResult;
 import com.google.maps.model.LatLng;
 import com.google.maps.model.PlacesSearchResponse;
 import com.netcracker.ssau.restplacesearcher.model.WeatherData;
@@ -104,18 +107,10 @@ public class RPSController {
     }
 
     @RequestMapping(value = "/getDistanceMatrix", method = RequestMethod.GET)
-    private static DistanceMatrix getDistanceMatrix(String origin, String destination) {
-        String[] origins = new String[1];
-        String[] destinations = new String[1];
-        DistanceMatrix distanceMatrix = null;
-        origins[0] = origin;
-//        origins[1] = "Seattle";
-        destinations[0] = destination;
-//        destinations[1] = "Victoria BC";
-        DistanceMatrixApiRequest request = DistanceMatrixApi.getDistanceMatrix(context, origins, destinations);
+    private static DirectionsResult getDistanceMatrix(String origin, String destination) {
+        DirectionsResult directionsResult = null;
         try {
-            distanceMatrix = request.await();
-            System.out.println(distanceMatrix.toString());
+            directionsResult = DirectionsApi.getDirections(context, origin, destination).await();
         } catch (ApiException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -123,7 +118,7 @@ public class RPSController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return distanceMatrix;
+        return directionsResult;
     }
 
 

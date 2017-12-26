@@ -34,10 +34,24 @@ public class Main {
     private static final double CONVERT_TO_TORR_COEF = 0.00750062;
 
     public static void main(String[] args) {
+
+
+        try {
+            DirectionsResult directionsResult = DirectionsApi.getDirections(context, "Samara", "Moscow").await();
+            System.out.println(directionsResult);
+        } catch (ApiException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
 //        lat: 53.1999856,
 //                lng: 50.1572578
 //        getWeather(53.1999856, 50.1572578);
-        getDistanceMatrix();
+//        getDistanceMatrix();
 //        PlacesSearchResponse response = findPlaceByType(placeType, radius, lat, lng);
 //        System.out.println(response.results);
 //        getWeather();
