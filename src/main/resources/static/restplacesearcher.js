@@ -179,9 +179,10 @@ function getWeatherData() {
         success: function (content) {
             console.log(content);
             setWeatherWidgetContent(
+                _currentPlaceName,
+
                 content.dateToday,
                 content.weekDay,
-                content.city,
                 content.todayNow,
                 content.todayDay,
                 content.todayNight,
@@ -197,19 +198,17 @@ function getWeatherData() {
     });
 }
 
-function setWeatherWidgetContent(dateToday, weekDay, city, todayNow, todayDay, todayNight, averageTemperatureDay, averageTemperatureNight, averagePrecipitation) {
+function setWeatherWidgetContent(city, dateToday, weekDay, todayNow, todayDay, todayNight, averageTemperatureDay, averageTemperatureNight, averagePrecipitation) {
+    document.getElementById("location-city").innerHTML = city;
+
     document.getElementById("today-temperature").innerHTML = todayNow;
     document.getElementById("today-temperature-day").innerHTML = todayDay;
     document.getElementById("today-temperature-night").innerHTML = todayNight;
-    document.getElementById("location-city").innerHTML = city;
     document.getElementById("weekday").innerHTML = weekDay + ", " + dateToday;
 
-
     let $table = $("table tr");
-    $("td", $table.eq(0)).eq(1).text(averageTemperatureDay + "°C");
-    $("td", $table.eq(0)).eq(2).text(averageTemperatureNight + "°C");
-    $("td", $table.eq(1)).eq(1).text(averagePrecipitation + "°C");
-    $("td", $table.eq(1)).eq(2).text("");
+    $("td", $table.eq(0)).eq(1).text(todayDay + 2 + "°C");
+    $("td", $table.eq(0)).eq(2).text(todayNight - 2 + "°C");
 }
 
 function setPlaceListContent() {
