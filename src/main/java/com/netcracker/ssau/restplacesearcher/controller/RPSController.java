@@ -104,14 +104,14 @@ public class RPSController {
     }
 
     private static String getCurrentWeatherData(double lat, double lon) throws IOException {
-        return performRequest("http://samples.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&" + WEATHER_API_KEY);
+        return performRequest("http://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&" + WEATHER_API_KEY);
     }
 
 
     //API key = b089342ff727fbb2fc357f71779ba4d3
-    //http://samples.openweathermap.org/data/2.5/history/city?lat=41.85&lon=-87.65&appid=b089342ff727fbb2fc357f71779ba4d3
+    //http://api.openweathermap.org/data/2.5/history/city?lat=41.85&lon=-87.65&appid=b089342ff727fbb2fc357f71779ba4d3
     private static String getHistoricalWeatherData(double lat, double lon) throws IOException {
-        return performRequest("http://samples.openweathermap.org/data/2.5/history/city?lat=" + lat + "&lon=" + lon + "&" + WEATHER_API_KEY);
+        return performRequest("http://samples.openweathermap.org/data/2.5/history/city?lat=41.85&lon=-87.65&appid=b1b15e88fa797225412429c1c50c122a1);//(http://api.openweathermap.org/data/2.5/history/city?lat=" + lat + "&lon=" + lon + "&" + WEATHER_API_KEY);//return performRequest("http://api.openweathermap.org/data/2.5/history/city?lat=" + lat + "&lon=" + lon + "&" + WEATHER_API_KEY);
     }
 
     private static String performRequest(String url) throws IOException {
