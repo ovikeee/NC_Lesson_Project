@@ -36,8 +36,8 @@ public class Main {
     public static void main(String[] args) {
 //        lat: 53.1999856,
 //                lng: 50.1572578
-        getWeather(53.1999856, 50.1572578);
-
+//        getWeather(53.1999856, 50.1572578);
+        getDistanceMatrix();
 //        PlacesSearchResponse response = findPlaceByType(placeType, radius, lat, lng);
 //        System.out.println(response.results);
 //        getWeather();

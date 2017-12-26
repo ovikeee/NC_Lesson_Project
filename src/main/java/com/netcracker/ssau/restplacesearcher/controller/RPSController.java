@@ -104,13 +104,13 @@ public class RPSController {
     }
 
     @RequestMapping(value = "/getDistanceMatrix", method = RequestMethod.GET)
-    private static DistanceMatrix getDistanceMatrix(String origin, String destinationLng) {
+    private static DistanceMatrix getDistanceMatrix(String origin, String destination) {
         String[] origins = new String[1];
         String[] destinations = new String[1];
         DistanceMatrix distanceMatrix = null;
         origins[0] = origin;
 //        origins[1] = "Seattle";
-        destinations[0] = destinationLng;
+        destinations[0] = destination;
 //        destinations[1] = "Victoria BC";
         DistanceMatrixApiRequest request = DistanceMatrixApi.getDistanceMatrix(context, origins, destinations);
         try {
