@@ -16,8 +16,54 @@
     <script type="text/javascript" src="restplacesearcher.js"></script>
 
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/widget.css">
 </head>
 <body>
+
+
+<!-- weather widget start -->
+<div id="m-booked-bl-simple-week-vertical-65350">
+    <div class="booked-wzs-160-275 weather-customize" style="background-color:#137AE9; width:160px;" id="width1 ">
+        <div class="booked-wzs-160-275_in">
+            <div class="booked-wzs-160-275-data">
+                <div class="booked-wzs-160-275-right">
+                    <div class="booked-wzs-day-deck">
+                        <div class="booked-wzs-day-val">
+                            <div class="booked-wzs-day-number">-4</div> <!--  сегодняшняя погода  -->
+                            <div class="booked-wzs-day-dergee">
+                                <div class="booked-wzs-day-dergee-val">&deg;</div>
+                                <div class="booked-wzs-day-dergee-name">C</div>
+                            </div>
+                        </div>
+                        <div class="booked-wzs-day"> <!--  сегодняшняя погода  -->
+                            <div class="booked-wzs-day-d">-4&deg;</div>  <!--  сегодняшняя погода день  -->
+                            <div class="booked-wzs-day-n">-4&deg;</div> <!--  сегодняшняя погода ночь -->
+                        </div>
+                    </div>
+                    <div class="booked-wzs-160-275-info">
+                        <div class="booked-wzs-160-275-city">Самара</div>  <!-- город  -->
+                        <div class="booked-wzs-160-275-date">Вторник, 26</div> <!-- день недели, дата  -->
+                    </div>
+                </div>
+            </div>
+            <a class="booked-wzs-bottom-160-275">
+                <table cellpadding="0" cellspacing="0" class="booked-wzs-table-160">
+                    <tr>
+                        <td class="week-day"><span class="week-day-txt">Средняя температура</span></td>
+                        <td class="week-day-val">-4&deg;</td> <!-- погода на пн день  -->
+                        <td class="week-day-val">-4&deg;</td> <!-- погода на пн ночь  -->
+                    </tr>
+                    <tr>
+                        <td class="week-day"><span class="week-day-txt">Средние осадки</span></td>
+                        <td class="week-day-val"><span class="plus">+</span>2&deg;</td><!-- погода на вт день  -->
+                        <td class="week-day-val">-6&deg;</td><!-- погода на вт ночь  -->
+                    </tr>
+                </table>
+            </a>
+        </div>
+    </div>
+</div>
+
 <div id="map"></div>
 
 <form id="start-place" class="form-inline">
@@ -27,6 +73,7 @@
     <button id="start-place-button" type="button" class="btn btn-primary" onclick="navigateToStartPlace()">Найти
     </button>
 </form>
+
 
 <form id="final-place" class="form-inline">
     <div class="form-group mx-sm-3">
@@ -117,6 +164,7 @@
         <button type="button" class="btn btn-success" onclick="filterPlaces()">Отфильтровать места</button>
     </div>
 </form>
+
 
 </body>
 </html>

@@ -19,6 +19,8 @@ function initMap() {
         type: ['bank'] //тип места
     }, callback);
 
+    getWeatherData();
+
 }
 
 function callback(results, status) {//рисуем на карте все маркеры
@@ -62,4 +64,21 @@ function createMarker(place) {
 
 }
 
+function getWeatherData() {
+    const currentPlace = 'Samara'
 
+    $.ajax({
+        url: "/getWeatherData",
+        dataType: "json",
+        contentType: "application/json",
+        data: {
+            "currentPlace": currentPlace
+        },
+        success: function (content) {
+            console.log(content);
+        },
+        error: function () {
+            console.log("getWeatherData -> no data");
+        }
+    });
+}

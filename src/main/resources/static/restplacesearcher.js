@@ -9,6 +9,7 @@ let _currentPlace;
 function initialize() {
     initMap();
     initAutocomplete();
+    getWeatherData();
 }
 
 function initMap() {
@@ -159,6 +160,29 @@ function findPlaces(type, radius) {
     });
 }
 
+function getWeatherData() {
+    const currentPlace = { //Samara
+        lat: 53.1999856,
+        lng: 50.1572578
+    };
+
+    $.ajax({
+        url: "/getWeatherData",
+        dataType: "json",
+        contentType: "application/json",
+        data: {
+            "currentPlace": currentPlace
+        },
+        success: function (content) {
+            console.log(content);
+        },
+        error: function () {
+            console.log("getWeatherData -> no data");
+        }
+    });
+}
+
+
 function filterByTemperature() {
     const from = document.getElementById("from-select").value;
     const to = document.getElementById("to-select").value;
@@ -199,4 +223,39 @@ function filterPlaces() {
     if (timeFilter === true) {
         filterByTime();
     }
+}
+
+function setWidgetData(data) {
+    if (typeof(data) != 'undefined' && data.results.length > 0) {
+        for (var i = 0; i < data.results.length; ++i) {
+            var objMainBlock = document.getElementById('m-booked-bl-simple-week-vertical-65350');
+            if (objMainBlock !== null) {
+                var copyBlock = document.getElementById('m-bookew-weather-copy-' + data.results[i].widget_type);
+                objMainBlock.innerHTML = data.results[i].html_code;
+                if (copyBlock !== null) objMainBlock.appendChild(copyBlock);
+            }
+        }
+    } else {
+        alert('data=undefined||data.results is empty');
+    }
+}
+
+
+function getWeatherData() {
+    const currentPlace = 'Samara'
+
+    $.ajax({
+        url: "/getWeatherData",
+        dataType: "json",
+        contentType: "application/json",
+        data: {
+            "currentPlace": currentPlace
+        },
+        success: function (content) {
+            console.log(content);
+        },
+        error: function () {
+            console.log("getWeatherData -> no data");
+        }
+    });
 }

@@ -3,9 +3,18 @@ package com.netcracker.ssau.restplacesearcher.controller;
 import com.google.maps.*;
 import com.google.maps.errors.ApiException;
 import com.google.maps.model.*;
+import com.netcracker.ssau.restplacesearcher.model.WeatherData;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class Main {
     private static final String placeType = "Пляж";
@@ -21,10 +30,13 @@ public class Main {
     public static void main(String[] args) {
         PlacesSearchResponse response = findPlaceByType(placeType, radius, lat, lng);
         System.out.println(response.results);
+        getWeather();
 //        getRestPlacesByQuery("2", i, RankBy.DISTANCE, PlaceType.BAR, new LatLng(53.1999856, 50.1572578));
 //        getRestPlaces();
 //        getDistanceMatrix();
     }
+
+// RPSController ---------------->
 
 
     //    @RequestMapping(value = "/findPlaceByType", method = RequestMethod.GET)
@@ -33,13 +45,92 @@ public class Main {
         PlacesSearchResponse response = null;
         try {
             response = request.location(new LatLng(lat, lng)).radius(radius).await();
-            PlacesSearchResponse total = new PlacesSearchResponse();
-            System.out.println(total.results.toString());
+            System.out.println(response.results.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
         return response;
     }
+
+    //    @RequestMapping(value = "/getWeatherData", method = RequestMethod.GET)
+    public static WeatherData getWeatherData(String sity) {
+        //int todayNow, int todayDay, int todayNight, int averageTemperature, int averagePrecipitation
+        WeatherData weatherData = new WeatherData(26, "Самара", "Вторник", 0, 3, -3, 2, 750);
+        return weatherData;
+    }
+
+    private static void getWeather() {
+        HttpClient httpClient = HttpClientBuilder.create().build(); //Use this instead
+
+        try {
+            //API key = b089342ff727fbb2fc357f71779ba4d3
+            //http://samples.openweathermap.org/data/2.5/history/city?lat=41.85&lon=-87.65&appid=b089342ff727fbb2fc357f71779ba4d3
+
+            HttpGet request = new HttpGet("http://samples.openweathermap.org/data/2.5/history/city?lat=41.85&lon=-87.65&appid=b089342ff727fbb2fc357f71779ba4d3");
+//        StringEntity params = new StringEntity("details={\"name\":\"myname\",\"age\":\"20\"} ");
+            request.addHeader("content-type", "application/x-www-form-urlencoded");
+
+//        request.setEntity(params);
+            HttpResponse response = httpClient.execute(request);
+//        response.getEntity().getContent();
+//        System.out.println(response.getEntity().getContent().toString());
+
+//        JSONObject jsonObject = (JSONObject)jsonParser.parse(
+//                new InputStreamReader(inputStream, "UTF-8"));
+
+
+////        Reader reader = new FileReader(new File("<fullPath>/json.js"));
+//        JsonElement elem = new JsonParser().parse((response.getEntity().getContent());
+
+//        JSONArray jsonarr = (JSONArray) new JSONParser().parse(String.valueOf(response.getEntity().getContent()));
+//        String resp = String.valueOf();
+            BufferedReader stream = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+            StringBuilder responseStrBuilder = new StringBuilder();
+            String inputStr;
+            String responseString;
+            while ((inputStr = stream.readLine()) != null)
+                responseStrBuilder.append(inputStr);
+
+
+            JSONObject jsonobj = (JSONObject) new JSONParser().parse(responseStrBuilder.toString());
+            System.out.println(jsonobj.toString());
+//        Gson gson  = new GsonBuilder().create();
+//        TestObject o = gson.fromJson(elem, TestObject.class);
+
+            //handle response here...
+
+        } catch (Exception ex) {
+            System.out.println("EEEE");
+            //handle exception here
+
+        } finally {
+            //Deprecated
+            //httpClient.getConnectionManager().shutdown();
+        }
+    }
+//  ----------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     private static void getPlaces() {
         NearbySearchRequest request = PlacesApi.nearbySearchQuery(context, new LatLng(53.1999856, 50.1572578));

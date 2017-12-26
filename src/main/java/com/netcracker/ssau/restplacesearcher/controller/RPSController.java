@@ -5,6 +5,7 @@ import com.google.maps.PlacesApi;
 import com.google.maps.TextSearchRequest;
 import com.google.maps.model.LatLng;
 import com.google.maps.model.PlacesSearchResponse;
+import com.netcracker.ssau.restplacesearcher.model.WeatherData;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,4 +34,13 @@ public class RPSController {
     }
 
 
+    @RequestMapping(value = "/getWeatherData", method = RequestMethod.GET)
+    public static WeatherData getWeatherData(String currentPlace) {
+
+        //API key = b089342ff727fbb2fc357f71779ba4d3
+        //http://samples.openweathermap.org/data/2.5/history/city?lat=41.85&lon=-87.65&appid=b089342ff727fbb2fc357f71779ba4d3
+        System.out.println(currentPlace);
+        WeatherData weatherData = new WeatherData(26, "Самара", "Вторник", 0, 3, -3, 2, 750);
+        return weatherData;
+    }
 }
