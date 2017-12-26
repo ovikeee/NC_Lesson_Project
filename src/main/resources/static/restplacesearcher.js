@@ -5,11 +5,11 @@ let _placeInfo;
 let _markers = [];
 
 let _currentPlace;
+let _currentPlaceName;
 
 function initialize() {
     initMap();
     initAutocomplete();
-    getWeatherData();
 }
 
 function initMap() {
@@ -19,6 +19,7 @@ function initMap() {
     };
 
     _currentPlace = samara;
+    _currentPlaceName = "Самара";
 
     _map = new google.maps.Map(document.getElementById('map'), {
         center: _currentPlace,
@@ -73,10 +74,7 @@ function navigateToStartPlace() {
             bounds.extend(place.geometry.location);
             _map.fitBounds(bounds);
             _map.setZoom(13);
-            _currentPlace = {
-                lat: place.geometry.location.lat(),
-                lng: place.geometry.location.lng()
-            };
+            updateCurrentPlace(place);
         });
     }
 }
@@ -95,12 +93,18 @@ function navigateToFinalPlace() {
             bounds.extend(place.geometry.location);
             _map.fitBounds(bounds);
             _map.setZoom(13);
-            _currentPlace = {
-                lat: place.geometry.location.lat(),
-                lng: place.geometry.location.lng()
-            };
+            updateCurrentPlace(place);
         });
     }
+}
+
+function updateCurrentPlace(place) {
+    _currentPlace = {
+        lat: place.geometry.location.lat(),
+        lng: place.geometry.location.lng()
+    };
+    _currentPlaceName = place.name;
+    document.getElementById("current-place-input").placeholder = _currentPlaceName;
 }
 
 function iAmLucky() {
@@ -161,17 +165,14 @@ function findPlaces(type, radius) {
 }
 
 function getWeatherData() {
-    const currentPlace = { //Samara
-        lat: 53.1999856,
-        lng: 50.1572578
-    };
-
+    document.getElementById("weather-widget").style.display = 'block';
     $.ajax({
         url: "/getWeatherData",
         dataType: "json",
         contentType: "application/json",
         data: {
-            "currentPlace": currentPlace
+            "lat": _currentPlace.lat,
+            "lng": _currentPlace.lng
         },
         success: function (content) {
             console.log(content);
@@ -238,24 +239,4 @@ function setWidgetData(data) {
     } else {
         alert('data=undefined||data.results is empty');
     }
-}
-
-
-function getWeatherData() {
-    const currentPlace = 'Samara'
-
-    $.ajax({
-        url: "/getWeatherData",
-        dataType: "json",
-        contentType: "application/json",
-        data: {
-            "currentPlace": currentPlace
-        },
-        success: function (content) {
-            console.log(content);
-        },
-        error: function () {
-            console.log("getWeatherData -> no data");
-        }
-    });
 }
