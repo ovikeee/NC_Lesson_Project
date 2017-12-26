@@ -11,30 +11,19 @@ public class WeatherData {
     private int todayDay;
     private int todayNight;
 
-    private int averageTemperature;
+    private int averageTemperatureDay;
+    private int averageTemperatureNight;
     private int averagePrecipitation;
 
-    public WeatherData() {
-    }
-
-    /**
-     * @param dateToday - сегодняшнее число
-     */
-    public WeatherData(int dateToday,
-                       String weekDay,
-                       String city,
-                       int todayNow,
-                       int todayDay,
-                       int todayNight,
-                       int averageTemperature,
-                       int averagePrecipitation) {
+    public WeatherData(int dateToday, String weekDay, String city, int todayNow, int todayDay, int todayNight, int averageTemperatureDay, int averageTemperatureNight, int averagePrecipitation) {
         this.dateToday = dateToday;
         this.weekDay = weekDay;
         this.city = city;
-        this.todayDay = todayDay;
         this.todayNow = todayNow;
+        this.todayDay = todayDay;
         this.todayNight = todayNight;
-        this.averageTemperature = averageTemperature;
+        this.averageTemperatureDay = averageTemperatureDay;
+        this.averageTemperatureNight = averageTemperatureNight;
         this.averagePrecipitation = averagePrecipitation;
     }
 
@@ -58,16 +47,8 @@ public class WeatherData {
         return city;
     }
 
-    public void setCity(String sity) {
-        this.city = sity;
-    }
-
-    public int getTodayDay() {
-        return todayDay;
-    }
-
-    public void setTodayDay(int todayDay) {
-        this.todayDay = todayDay;
+    public void setCity(String city) {
+        this.city = city;
     }
 
     public int getTodayNow() {
@@ -78,6 +59,14 @@ public class WeatherData {
         this.todayNow = todayNow;
     }
 
+    public int getTodayDay() {
+        return todayDay;
+    }
+
+    public void setTodayDay(int todayDay) {
+        this.todayDay = todayDay;
+    }
+
     public int getTodayNight() {
         return todayNight;
     }
@@ -86,12 +75,20 @@ public class WeatherData {
         this.todayNight = todayNight;
     }
 
-    public int getAverageTemperature() {
-        return averageTemperature;
+    public int getAverageTemperatureDay() {
+        return averageTemperatureDay;
     }
 
-    public void setAverageTemperature(int averageTemperature) {
-        this.averageTemperature = averageTemperature;
+    public void setAverageTemperatureDay(int averageTemperatureDay) {
+        this.averageTemperatureDay = averageTemperatureDay;
+    }
+
+    public int getAverageTemperatureNight() {
+        return averageTemperatureNight;
+    }
+
+    public void setAverageTemperatureNight(int averageTemperatureNight) {
+        this.averageTemperatureNight = averageTemperatureNight;
     }
 
     public int getAveragePrecipitation() {

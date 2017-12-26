@@ -9,12 +9,15 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class Main {
     private static final String placeType = "Пляж";
@@ -22,15 +25,24 @@ public class Main {
     private static final int radius = 1000; //1000m
     private static final double lat = 53.1999856;
     private static final double lng = 50.1572578;
-    private static final String APIKey = "AIzaSyB2ifm7v5evu58yCybWWlsKAVl9EoxTlaw";
+    private static final String APIKey = "AIzaSyDM8J5cXMLFnrVt0Il99BwvVotBpx9dmtc";
+    //AIzaSyB2ifm7v5evu58yCybWWlsKAVl9EoxTlaw
     private static final GeoApiContext context = new GeoApiContext.Builder()
             .apiKey(APIKey)
             .build();
+    private static final String WEATHER_API_KEY = "appid=b089342ff727fbb2fc357f71779ba4d3";
+    private static final double CONVERT_TO_TORR_COEF = 0.00750062;
 
     public static void main(String[] args) {
-        PlacesSearchResponse response = findPlaceByType(placeType, radius, lat, lng);
-        System.out.println(response.results);
-        getWeather();
+//        lat: 53.1999856,
+//                lng: 50.1572578
+        getWeather(53.1999856, 50.1572578);
+
+//        PlacesSearchResponse response = findPlaceByType(placeType, radius, lat, lng);
+//        System.out.println(response.results);
+//        getWeather();
+
+
 //        getRestPlacesByQuery("2", i, RankBy.DISTANCE, PlaceType.BAR, new LatLng(53.1999856, 50.1572578));
 //        getRestPlaces();
 //        getDistanceMatrix();
@@ -55,59 +67,140 @@ public class Main {
     //    @RequestMapping(value = "/getWeatherData", method = RequestMethod.GET)
     public static WeatherData getWeatherData(String sity) {
         //int todayNow, int todayDay, int todayNight, int averageTemperature, int averagePrecipitation
-        WeatherData weatherData = new WeatherData(26, "Самара", "Вторник", 0, 3, -3, 2, 750);
+        WeatherData weatherData = new WeatherData(26, "Вторник", "Самара", 0, 3, -3, 2, 1, 750);
         return weatherData;
     }
 
-    private static WeatherData getWeather() {
-        HttpClient httpClient = HttpClientBuilder.create().build(); //Use this instead
+    /**
+     * type type of the call, keep this parameter in the API call as 'hour'
+     * start start date (unix time, UTC time zone), e.g. start=1369728000
+     * end end date (unix time, UTC time zone), e.g. end=1369789200
+     * cnt amount of returned data (one per hour, can be used instead of 'end')
+     */
+
+    private static WeatherData getWeather(double lat, double lng) {
+        WeatherData weatherData = null;
+
         try {
-            //API key = b089342ff727fbb2fc357f71779ba4d3
-            //http://samples.openweathermap.org/data/2.5/history/city?lat=41.85&lon=-87.65&appid=b089342ff727fbb2fc357f71779ba4d3
-            HttpGet request = new HttpGet("http://samples.openweathermap.org/data/2.5/history/city?lat=41.85&lon=-87.65&appid=b089342ff727fbb2fc357f71779ba4d3");
-            request.addHeader("content-type", "application/x-www-form-urlencoded");
-            HttpResponse response = httpClient.execute(request);
+            JSONObject historicalData = new JSONObject(getHistoricalWeatherData(lat, lng));
+            JSONArray weatherHistoricalDate = historicalData.getJSONArray("list");
+            int countOfWeatherHistoricalDate = weatherHistoricalDate.length();
+            System.out.println("Сведений о погоде найдено: " + weatherHistoricalDate.length());
 
-            BufferedReader stream = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
-            StringBuilder responseStrBuilder = new StringBuilder();
-            String inputStr;
-            String responseString;
-            while ((inputStr = stream.readLine()) != null)
-                responseStrBuilder.append(inputStr);
-            JSONObject jsonobj = (JSONObject) new JSONParser().parse(responseStrBuilder.toString());
-            jsonobj.get("list");
-            System.out.println(jsonobj.toString());
+            double averageTemperatureDay = 0;
+            double averageTemperatureNight = 0;
+            double averagePressure = 0;
+
+            for (int i = 0; i < countOfWeatherHistoricalDate; i++) {
+                JSONObject main = weatherHistoricalDate.getJSONObject(i).getJSONObject("main");
+                System.out.println("Погода за " + getDate(weatherHistoricalDate.getJSONObject(i).getLong("dt")));
+                System.out.println("Днём: " + kelvinToCelsius(main.getDouble("temp_max")));
+                System.out.println("Ночью: " + kelvinToCelsius(main.getDouble("temp_min")));
+                averageTemperatureDay += kelvinToCelsius(main.getDouble("temp_max"));
+                averageTemperatureNight += kelvinToCelsius(main.getDouble("temp_min"));
+                averagePressure += main.getDouble("pressure");
+            }
+
+            averageTemperatureDay = averageTemperatureDay / countOfWeatherHistoricalDate;
+            averageTemperatureNight = averageTemperatureNight / countOfWeatherHistoricalDate;
+            averagePressure = averagePressure / countOfWeatherHistoricalDate * CONVERT_TO_TORR_COEF;
 
 
+//            JSONObject main = weatherHistoricalDate.getJSONObject(0).getJSONObject("main");
+            JSONObject currentWeatherData = new JSONObject(getCurrentWeatherData(lat, lng));
+
+            weatherData = new WeatherData(
+                    getCurrentDay(),
+                    getCurrentWeekDay(),
+                    getCity(),
+                    kelvinToCelsius(currentWeatherData.getJSONObject("main").getDouble("temp")),
+                    kelvinToCelsius(currentWeatherData.getJSONObject("main").getDouble("temp_max")),
+                    kelvinToCelsius(currentWeatherData.getJSONObject("main").getDouble("temp_min")),
+                    (int) Math.round(averageTemperatureDay),
+                    (int) Math.round(averageTemperatureNight),
+                    (int) Math.round(averagePressure)
+            );
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        return new WeatherData();
+        return weatherData;
+    }
+
+    private static String getCurrentWeatherData(double lat, double lon) throws IOException {
+        return performRequest("http://samples.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&" + WEATHER_API_KEY);
+    }
+
+
+    //API key = b089342ff727fbb2fc357f71779ba4d3
+    //http://samples.openweathermap.org/data/2.5/history/city?lat=41.85&lon=-87.65&appid=b089342ff727fbb2fc357f71779ba4d3
+    private static String getHistoricalWeatherData(double lat, double lon) throws IOException {
+        return performRequest("http://samples.openweathermap.org/data/2.5/history/city?lat=" + lat + "&lon=" + lon + "&" + WEATHER_API_KEY);
+    }
+
+    private static String performRequest(String url) throws IOException {
+        HttpClient httpClient = HttpClientBuilder.create().build(); //Use this instead
+        HttpGet request = new HttpGet(url);
+        request.addHeader("content-type", "application/x-www-form-urlencoded");
+        HttpResponse response = httpClient.execute(request);
+
+        BufferedReader stream = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+        StringBuilder responseStrBuilder = new StringBuilder();
+        String inputStr;
+        while ((inputStr = stream.readLine()) != null)
+            responseStrBuilder.append(inputStr);
+        return responseStrBuilder.toString();
+    }
+
+    private static int kelvinToCelsius(double kellvin) {
+        return (int) Math.round(kellvin) - 273;
+    }
+
+    private static String getCity() {
+        return "Самара";
+    }
+
+    private static String getCurrentWeekDay() {
+        Date dateNow = new Date();
+        Calendar c = Calendar.getInstance();
+        c.setTime(dateNow);
+        int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
+        switch (dayOfWeek) {
+            case 1:
+                return "Воскресенье";
+            case 2:
+                return "Понедельник";
+            case 3:
+                return "Вторник";
+            case 4:
+                return "Среда";
+            case 5:
+                return "Четверг";
+            case 6:
+                return "Пятниа";
+            case 7:
+                return "Суббота";
+
+        }
+        return null;
+    }
+
+
+    private static int getCurrentDay() {
+        Date dateNow = new Date();
+        SimpleDateFormat formatForDateNow = new SimpleDateFormat("d");
+        System.out.println("Текущая дата " + formatForDateNow.format(dateNow));
+        return Integer.valueOf(formatForDateNow.format(dateNow));
+    }
+
+    private static String getDate(long date) {
+        System.out.println("date millsec " + date);
+        Date dateNow = new Date(date * 1000L);
+        SimpleDateFormat formatForDateNow = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
+        return formatForDateNow.format(dateNow);
     }
 
 
 //  ------------------------------------------------
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     private static void getPlaces() {
