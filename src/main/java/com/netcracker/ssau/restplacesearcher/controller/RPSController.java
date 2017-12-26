@@ -40,7 +40,7 @@ public class RPSController {
         //API key = b089342ff727fbb2fc357f71779ba4d3
         //http://samples.openweathermap.org/data/2.5/history/city?lat=41.85&lon=-87.65&appid=b089342ff727fbb2fc357f71779ba4d3
 //        System.out.println(currentPlace);
-        WeatherData weatherData = new WeatherData(26, "Самара", "Вторник", 0, 3, -3, 2, 750);
+        WeatherData weatherData = new WeatherData(26, "Вторник", "Самара", 0, 3, -3, 2, 750);
         return weatherData;
     }
 }
