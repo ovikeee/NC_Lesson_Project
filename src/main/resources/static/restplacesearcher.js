@@ -4,6 +4,8 @@ let _service;
 let _placeInfo;
 let _markers = [];
 
+let _currentPlace;
+
 function initialize() {
     initMap();
     initAutocomplete();
@@ -15,8 +17,10 @@ function initMap() {
         lng: 50.1572578
     };
 
+    _currentPlace = samara;
+
     _map = new google.maps.Map(document.getElementById('map'), {
-        center: samara,
+        center: _currentPlace,
         zoom: 13
     });
     _placeInfo = new google.maps.InfoWindow();
@@ -24,8 +28,8 @@ function initMap() {
 }
 
 function initAutocomplete() {
-    let startPlaceInput = document.getElementById("start-place-input");
-    let finalPlaceInput = document.getElementById("final-place-input");
+    const startPlaceInput = document.getElementById("start-place-input");
+    const finalPlaceInput = document.getElementById("final-place-input");
 
     [startPlaceInput, finalPlaceInput].forEach(input =>
         new google.maps.places.Autocomplete(
@@ -33,23 +37,6 @@ function initAutocomplete() {
             {types: ["(regions)"]}
         )
     );
-
-    /*let searchBox = new google.maps.places.SearchBox(startPlaceInput);
-    _map.controls[google.maps.ControlPosition.TOP_LEFT].push(startPlaceInput);
-
-    _map.addListener("bounds_changed", function () {
-        searchBox.setBounds(_map.getBounds());
-    });
-
-    searchBox.addListener("places_changed", function () {
-        let places = searchBox.getPlaces();
-
-        if (places.length === 0) {
-            return;
-        }
-
-        _map.fitBounds(bounds);
-    });*/
 }
 
 function createMarker(place) {
@@ -72,9 +59,20 @@ function deleteMarkers() {
 }
 
 function navigateToStartPlace() {
-    const place = document.getElementById("start-place-input").value;
-    if (place) {
-        alert("Navigate to " + place);
+    const startPlaceInput = document.getElementById("start-place-input");
+    const startPlaceButton = document.getElementById("start-place-button");
+
+    let searchBox = new google.maps.places.SearchBox(startPlaceInput);
+
+    // TODO Fix error for if place repeats
+    if (startPlaceInput.value) {
+        startPlaceButton.addEventListener("click", function () {
+            let place = searchBox.getPlaces()[searchBox.getPlaces().length - 1];
+            let bounds = new google.maps.LatLngBounds();
+            bounds.extend(place.geometry.location);
+            _map.fitBounds(bounds);
+            _map.setZoom(13);
+        });
     }
 }
 
