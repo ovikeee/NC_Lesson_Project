@@ -59,56 +59,34 @@ public class Main {
         return weatherData;
     }
 
-    private static void getWeather() {
+    private static WeatherData getWeather() {
         HttpClient httpClient = HttpClientBuilder.create().build(); //Use this instead
-
         try {
             //API key = b089342ff727fbb2fc357f71779ba4d3
             //http://samples.openweathermap.org/data/2.5/history/city?lat=41.85&lon=-87.65&appid=b089342ff727fbb2fc357f71779ba4d3
-
             HttpGet request = new HttpGet("http://samples.openweathermap.org/data/2.5/history/city?lat=41.85&lon=-87.65&appid=b089342ff727fbb2fc357f71779ba4d3");
-//        StringEntity params = new StringEntity("details={\"name\":\"myname\",\"age\":\"20\"} ");
             request.addHeader("content-type", "application/x-www-form-urlencoded");
-
-//        request.setEntity(params);
             HttpResponse response = httpClient.execute(request);
-//        response.getEntity().getContent();
-//        System.out.println(response.getEntity().getContent().toString());
 
-//        JSONObject jsonObject = (JSONObject)jsonParser.parse(
-//                new InputStreamReader(inputStream, "UTF-8"));
-
-
-////        Reader reader = new FileReader(new File("<fullPath>/json.js"));
-//        JsonElement elem = new JsonParser().parse((response.getEntity().getContent());
-
-//        JSONArray jsonarr = (JSONArray) new JSONParser().parse(String.valueOf(response.getEntity().getContent()));
-//        String resp = String.valueOf();
             BufferedReader stream = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
             StringBuilder responseStrBuilder = new StringBuilder();
             String inputStr;
             String responseString;
             while ((inputStr = stream.readLine()) != null)
                 responseStrBuilder.append(inputStr);
-
-
             JSONObject jsonobj = (JSONObject) new JSONParser().parse(responseStrBuilder.toString());
+            jsonobj.get("list");
             System.out.println(jsonobj.toString());
-//        Gson gson  = new GsonBuilder().create();
-//        TestObject o = gson.fromJson(elem, TestObject.class);
 
-            //handle response here...
 
         } catch (Exception ex) {
-            System.out.println("EEEE");
-            //handle exception here
-
-        } finally {
-            //Deprecated
-            //httpClient.getConnectionManager().shutdown();
+            ex.printStackTrace();
         }
+        return new WeatherData();
     }
-//  ----------------
+
+
+//  ------------------------------------------------
 
 
 
