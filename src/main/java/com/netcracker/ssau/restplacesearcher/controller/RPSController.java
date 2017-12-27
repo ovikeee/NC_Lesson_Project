@@ -155,7 +155,7 @@ public class RPSController {
             case 5:
                 return "Четверг";
             case 6:
-                return "Пятниа";
+                return "Пятница";
             case 7:
                 return "Суббота";
 
@@ -166,7 +166,6 @@ public class RPSController {
     private int getCurrentDay() {
         Date dateNow = new Date();
         SimpleDateFormat formatForDateNow = new SimpleDateFormat("d");
-        System.out.println("Текущая дата " + formatForDateNow.format(dateNow));
         return Integer.valueOf(formatForDateNow.format(dateNow));
     }
 
