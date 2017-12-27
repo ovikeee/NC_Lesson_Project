@@ -162,7 +162,7 @@ function calculateAndDisplayRoute(startPlace, finalPlace) {
         travelMode: google.maps.TravelMode[selectedMode]
     }, function (response, status) {
         console.log(response);
-        if (status == 'OK') {
+        if (status === 'OK') {
             _directionsDisplay.setDirections(response);
         } else {
             alert("Не удается построить маршрут!");
