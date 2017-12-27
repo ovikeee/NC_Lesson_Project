@@ -1,19 +1,33 @@
 package com.netcracker.ssau.restplacesearcher.controller;
 
-import com.google.maps.*;
+import com.google.maps.DistanceMatrixApi;
+import com.google.maps.GeoApiContext;
+import com.google.maps.PlacesApi;
+import com.google.maps.TextSearchRequest;
 import com.google.maps.errors.ApiException;
-import com.google.maps.model.*;
+import com.google.maps.model.DistanceMatrix;
+import com.google.maps.model.DistanceMatrixElement;
+import com.google.maps.model.LatLng;
+import com.google.maps.model.PlacesSearchResponse;
 import com.netcracker.ssau.restplacesearcher.model.WeatherData;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.json.*;
-import org.springframework.web.bind.annotation.*;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 public class RPSController {
@@ -83,8 +97,8 @@ public class RPSController {
         return weatherData;
     }
 
-    @RequestMapping(value = "/getRoadCost", method = RequestMethod.GET)
-    private Map<String, String> getDistance(String origin, String destination, double petrolCost) {
+    @RequestMapping(value = "/getRoad", method = RequestMethod.GET)
+    public Map<String, String> getRoad(String origin, String destination, double petrolCost) {
         Map<String, String> map = new HashMap<>();
         DistanceMatrix distanceMatrix = null;
         String[] orign = new String[1];

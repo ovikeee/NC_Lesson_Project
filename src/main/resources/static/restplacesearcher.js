@@ -241,7 +241,7 @@ function getWeatherData() {
 
 function calculateCost(start, final, petrolCost) {
     $.ajax({
-        url: "/getRoadCost",
+        url: "/getRoad",
         dataType: "json",
         contentType: "application/json",
         data: {
@@ -308,14 +308,6 @@ function setPlaceListContent() {
 
     placeListDiv.appendChild(listUL);
     document.body.appendChild(placeListDiv);
-}
-
-function filterByDistance() {
-    const distance = document.getElementById("distance-input").value;
-
-    if (distance) {
-        alert("Places by distance " + distance + " found!");
-    }
 }
 
 function getRadius() {
