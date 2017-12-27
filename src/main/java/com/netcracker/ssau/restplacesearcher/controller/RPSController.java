@@ -17,22 +17,19 @@ import java.util.*;
 
 @RestController
 public class RPSController {
-    private final String placeType = "Пляж";
-    //center: {lat: 53.1999856, lng: 50.1572578},//Samara
-    private final int radius = 1000; //1000m
-    private final String APIKey = "AIzaSyDM8J5cXMLFnrVt0Il99BwvVotBpx9dmtc";
-    //AIzaSyB2ifm7v5evu58yCybWWlsKAVl9EoxTlaw
+    private final String APIKey = "AIzaSyDM8J5cXMLFnrVt0Il99BwvVotBpx9dmtc"; // AIzaSyB2ifm7v5evu58yCybWWlsKAVl9EoxTlaw
     private final String WEATHER_API_KEY = "appid=b089342ff727fbb2fc357f71779ba4d3";
     private final double CONVERT_TO_TORR_COEF = 0.00750062;
-
 
     private final GeoApiContext context = new GeoApiContext.Builder()
             .apiKey(APIKey)
             .build();
 
-
     @RequestMapping(value = "/findPlaceByType", method = RequestMethod.GET)
-    public PlacesSearchResponse findPlaceByType(String placeType, double radius, double lat, double lng) {
+    public PlacesSearchResponse findPlaceByType(String placeType,
+                                                double radius,
+                                                double lat,
+                                                double lng) {
         TextSearchRequest request = PlacesApi.textSearchQuery(context, placeType);
         PlacesSearchResponse response = null;
         try {
@@ -43,7 +40,6 @@ public class RPSController {
         return response;
     }
 
-
     @RequestMapping(value = "/getWeatherData", method = RequestMethod.GET)
     public WeatherData getWeatherData(double lat, double lng) {
         WeatherData weatherData = null;
@@ -52,7 +48,6 @@ public class RPSController {
             JSONObject historicalData = new JSONObject(getHistoricalWeatherData(lat, lng));
             JSONArray weatherHistoricalDate = historicalData.getJSONArray("list");
             int countOfWeatherHistoricalDate = weatherHistoricalDate.length();
-            System.out.println("Сведений о погоде найдено: " + weatherHistoricalDate.length());
 
             double averageTemperatureDay = 0;
             double averageTemperatureNight = 0;
@@ -60,9 +55,6 @@ public class RPSController {
 
             for (int i = 0; i < countOfWeatherHistoricalDate; i++) {
                 JSONObject main = weatherHistoricalDate.getJSONObject(i).getJSONObject("main");
-                System.out.println("Погода за " + getDate(weatherHistoricalDate.getJSONObject(i).getLong("dt")));
-                System.out.println("Днём: " + kelvinToCelsius(main.getDouble("temp_max")));
-                System.out.println("Ночью: " + kelvinToCelsius(main.getDouble("temp_min")));
                 averageTemperatureDay += kelvinToCelsius(main.getDouble("temp_max"));
                 averageTemperatureNight += kelvinToCelsius(main.getDouble("temp_min"));
                 averagePressure += main.getDouble("pressure");
@@ -72,8 +64,6 @@ public class RPSController {
             averageTemperatureNight = averageTemperatureNight / countOfWeatherHistoricalDate;
             averagePressure = averagePressure / countOfWeatherHistoricalDate * CONVERT_TO_TORR_COEF;
 
-
-//            JSONObject main = weatherHistoricalDate.getJSONObject(0).getJSONObject("main");
             JSONObject currentWeatherData = new JSONObject(getCurrentWeatherData(lat, lng));
 
             weatherData = new WeatherData(
@@ -108,32 +98,25 @@ public class RPSController {
             map.put("distance", String.valueOf(element.distance.humanReadable));
             map.put("duration", String.valueOf(element.duration.humanReadable));
             map.put("cost", String.valueOf(element.distance.inMeters / 100000 * 12 * petrolCost));
-        } catch (ApiException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (ApiException | InterruptedException | IOException e) {
             e.printStackTrace();
         }
         return map;
     }
 
-
     private String getCurrentWeatherData(double lat, double lon) throws IOException {
         return performRequest("http://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&" + WEATHER_API_KEY);
     }
 
-
-    //API key = b089342ff727fbb2fc357f71779ba4d3
-    //http://api.openweathermap.org/data/2.5/history/city?lat=41.85&lon=-87.65&appid=b089342ff727fbb2fc357f71779ba4d3
+    // API key = b089342ff727fbb2fc357f71779ba4d3
+    // http://api.openweathermap.org/data/2.5/history/city?lat=41.85&lon=-87.65&appid=b089342ff727fbb2fc357f71779ba4d3
     private String getHistoricalWeatherData(double lat, double lon) throws IOException {
         return performRequest("http://samples.openweathermap.org/data/2.5/history/city?lat=41.85&lon=-87.65&appid=b1b15e88fa797225412429c1c50c122a1");
-        //(http://api.openweathermap.org/data/2.5/history/city?lat=" + lat + "&lon=" + lon + "&" + WEATHER_API_KEY);
-
+        // (http://api.openweathermap.org/data/2.5/history/city?lat=" + lat + "&lon=" + lon + "&" + WEATHER_API_KEY);
     }
 
     private String performRequest(String url) throws IOException {
-        HttpClient httpClient = HttpClientBuilder.create().build(); //Use this instead
+        HttpClient httpClient = HttpClientBuilder.create().build();
         HttpGet request = new HttpGet(url);
         request.addHeader("content-type", "application/x-www-form-urlencoded");
         HttpResponse response = httpClient.execute(request);
@@ -151,6 +134,7 @@ public class RPSController {
     }
 
     private String getCity() {
+        // TODO Remove
         return "Самара";
     }
 
@@ -179,7 +163,6 @@ public class RPSController {
         return null;
     }
 
-
     private int getCurrentDay() {
         Date dateNow = new Date();
         SimpleDateFormat formatForDateNow = new SimpleDateFormat("d");
@@ -193,6 +176,4 @@ public class RPSController {
         SimpleDateFormat formatForDateNow = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
         return formatForDateNow.format(dateNow);
     }
-
-
 }
