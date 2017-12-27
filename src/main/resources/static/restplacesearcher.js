@@ -245,21 +245,26 @@ function setPlaceListContent() {
     placeListDiv.id = "place-list";
     placeListDiv.className = "card";
 
+    let headerH6 = document.createElement("h6");
+
     let placeListHeaderDiv = document.createElement("div");
     placeListHeaderDiv.id = "card-header";
     placeListHeaderDiv.innerText = "Найденные места";
+    headerH6.appendChild(placeListHeaderDiv);
 
-    placeListDiv.appendChild(placeListHeaderDiv);
+    placeListDiv.appendChild(headerH6);
 
     let listUL = document.createElement("ul");
     listUL.className = "list-group list-group-flush";
 
     if (_currentPlaces.length !== 0) {
+        let index = 1;
         _currentPlaces.forEach(place => {
-            let elementLI = document.createElement("li");
-            elementLI.className = "list-group-item";
-            elementLI.innerText = place.name;
+            let elementLI = document.createElement("span");
+            elementLI.className = "label";
+            elementLI.innerText = index + ". " + place.name;
             listUL.appendChild(elementLI);
+            index++;
         });
     }
 

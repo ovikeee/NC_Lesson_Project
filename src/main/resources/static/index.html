@@ -93,7 +93,7 @@
         <button id="final-place-button" type="button" class="btn btn-primary" onclick="navigateToFinalPlace()">
             Найти
         </button>
-        <button type="button" class="btn btn-info" onclick="iAmLucky()">
+        <button type="button" class="btn btn-info" title="Выбрать место случайно" onclick="iAmLucky()">
             Мне повезет!
         </button>
         <button type="button" class="btn btn-success" onclick="findWay()">
@@ -137,6 +137,12 @@
             Найти
         </button>
     </div>
+</form>
+
+<form id="place-type-hide" class="form-inline">
+    <button type="button" class="btn-sm btn-info" title="Скрыть список мест" onclick="$('#place-list').remove();">
+        ▽
+    </button>
 </form>
 
 <form id="weather" class="form-inline">

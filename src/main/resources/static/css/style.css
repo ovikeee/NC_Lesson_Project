@@ -89,6 +89,13 @@
     overflow-y: scroll;
 }
 
+#place-type-hide {
+    bottom: 123px;
+    right: 8px;
+    position: absolute;
+    z-index: 2;
+}
+
 .card-header {
     padding: 0.25rem;
 }
