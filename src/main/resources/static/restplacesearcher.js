@@ -51,6 +51,15 @@ function initDirection() {
     _directionsDisplay = new google.maps.DirectionsRenderer;
     _directionsService = new google.maps.DirectionsService;
     _directionsDisplay.setMap(_map);
+
+    let selectedMode = document.getElementById("mode");
+    selectedMode.addEventListener("change", function () {
+        if (selectedMode.value === "DRIVING") {
+            document.getElementById("petrol-cost").type = "visible";
+        } else {
+            document.getElementById("petrol-cost").type = "hidden";
+        }
+    })
 }
 
 function createMarker(place) {
