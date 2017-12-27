@@ -56,8 +56,10 @@ function initDirection() {
     selectedMode.addEventListener("change", function () {
         if (selectedMode.value === "DRIVING") {
             document.getElementById("petrol-cost").type = "visible";
+            document.getElementById("about-way").style.display = "block";
         } else {
             document.getElementById("petrol-cost").type = "hidden";
+            document.getElementById("about-way").style.display = "none";
         }
     })
 }
@@ -139,9 +141,13 @@ function iAmLucky() {
 function findWay() {
     const start = document.getElementById("start-place-input").value;
     const final = document.getElementById("final-place-input").value;
+    const petrolCost = document.getElementById("petrol-cost").value;
 
     if (start && final) {
         calculateAndDisplayRoute(start, final);
+        if (document.getElementById("mode").value === "DRIVING") {
+            calculateCost(start, final, petrolCost);
+        }
     }
 }
 
@@ -197,7 +203,7 @@ function findPlaces(type, radius) {
             setPlaceListContent();
         },
         error: function () {
-            console.log("findPlaces by" + type + " -> no data");
+            console.log("findPlaces by " + type + " -> no data");
         }
     });
 }
@@ -229,6 +235,30 @@ function getWeatherData() {
         },
         error: function () {
             console.log("getWeatherData -> no data");
+        }
+    });
+}
+
+function calculateCost(start, final, petrolCost) {
+    $.ajax({
+        url: "/getRoadCost",
+        dataType: "json",
+        contentType: "application/json",
+        data: {
+            "origin": start,
+            "destination": final,
+            "petrolCost": petrolCost
+        },
+        success: function (content) {
+            document.getElementById("way-distance").innerText = "Расстояние: " + content.distance;
+            document.getElementById("way-duration").innerText = "Время в пути: " + content.duration;
+            document.getElementById("way-cost").innerText = "Расходы на топливо: " + content.cost + " ₽";
+
+            document.getElementById("about-way").style.display = "block";
+
+        },
+        error: function () {
+            console.log("calculateCost -> no data");
         }
     });
 }

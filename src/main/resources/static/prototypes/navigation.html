@@ -82,12 +82,13 @@
 
 
         $.ajax({
-            url: "/getDistanceMatrix",
+            url: "/getRoadCost",
             dataType: "json",
             contentType: "application/json",
             data: {
                 "origin": "Samara",
-                "destination": "Moscow"
+                "destination": "Moscow",
+                "petrolCost": 40
             },
             success: function (content) {
                 console.log(content);

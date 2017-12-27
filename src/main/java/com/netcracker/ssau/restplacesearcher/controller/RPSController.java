@@ -93,8 +93,8 @@ public class RPSController {
         return weatherData;
     }
 
-    @RequestMapping(value = "/getDistanceMatrix", method = RequestMethod.GET)
-    private Map<String, String> getDistance(String origin, String destination) {
+    @RequestMapping(value = "/getRoadCost", method = RequestMethod.GET)
+    private Map<String, String> getDistance(String origin, String destination, double petrolCost) {
         Map<String, String> map = new HashMap<>();
         DistanceMatrix distanceMatrix = null;
         String[] orign = new String[1];
@@ -107,7 +107,7 @@ public class RPSController {
             DistanceMatrixElement element = distanceMatrix.rows[0].elements[0];
             map.put("distance", String.valueOf(element.distance.humanReadable));
             map.put("duration", String.valueOf(element.duration.humanReadable));
-            map.put("cost", String.valueOf(element.distance.inMeters / 100000 * 12 * 40));
+            map.put("cost", String.valueOf(element.distance.inMeters / 100000 * 12 * petrolCost));
         } catch (ApiException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
