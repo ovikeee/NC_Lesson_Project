@@ -97,7 +97,7 @@ public class RPSController {
             DistanceMatrixElement element = distanceMatrix.rows[0].elements[0];
             map.put("distance", String.valueOf(element.distance.humanReadable));
             map.put("duration", String.valueOf(element.duration.humanReadable));
-            map.put("cost", String.valueOf(element.distance.inMeters / 100000 * 12 * petrolCost));
+            map.put("cost", String.valueOf(element.distance.inMeters / 100000 * 12 * petrolCost * 2));
         } catch (ApiException | InterruptedException | IOException e) {
             e.printStackTrace();
         }

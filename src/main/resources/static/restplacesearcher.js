@@ -252,7 +252,7 @@ function calculateCost(start, final, petrolCost) {
         success: function (content) {
             document.getElementById("way-distance").innerText = "Расстояние: " + content.distance;
             document.getElementById("way-duration").innerText = "Время в пути: " + content.duration;
-            document.getElementById("way-cost").innerText = "Расходы на топливо: " + content.cost + " ₽";
+            document.getElementById("way-cost").innerText = "Расходы туда-обратно: " + content.cost + " ₽";
 
             document.getElementById("about-way").style.display = "block";
 
