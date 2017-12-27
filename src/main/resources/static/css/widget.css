@@ -84,7 +84,7 @@
     line-height: normal !important;
     max-height: 25px !important;
     margin: 2px 0 4px !important;
-    overflow: hidden !important;
+    /*overflow: hidden !important;*/
 }
 
 .booked-wzs-160-275-city.smolest,
