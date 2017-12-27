@@ -34,29 +34,22 @@
 }
 
 #flags {
-    top: 100px;
+    bottom: 120px;
     left: 125px;
     position: absolute;
     z-index: 2;
 }
 
 #place-type {
-    bottom: 202px;
+    bottom: 67px;
     left: 110px;
     position: absolute;
     z-index: 2;
 }
 
 #distance {
-    bottom: 112px;
-    left: 125px;
-    position: absolute;
-    z-index: 2;
-}
-
-#apply-filters {
     bottom: 22px;
-    left: 140px;
+    left: 125px;
     position: absolute;
     z-index: 2;
 }
