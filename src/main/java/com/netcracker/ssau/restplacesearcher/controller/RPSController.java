@@ -1,33 +1,19 @@
 package com.netcracker.ssau.restplacesearcher.controller;
 
-import com.google.maps.DistanceMatrixApi;
-import com.google.maps.GeoApiContext;
-import com.google.maps.PlacesApi;
-import com.google.maps.TextSearchRequest;
+import com.google.maps.*;
 import com.google.maps.errors.ApiException;
-import com.google.maps.model.DistanceMatrix;
-import com.google.maps.model.DistanceMatrixElement;
-import com.google.maps.model.LatLng;
-import com.google.maps.model.PlacesSearchResponse;
+import com.google.maps.model.*;
 import com.netcracker.ssau.restplacesearcher.model.WeatherData;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.json.*;
+import org.springframework.web.bind.annotation.*;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 public class RPSController {
@@ -46,13 +32,11 @@ public class RPSController {
 
 
     @RequestMapping(value = "/findPlaceByType", method = RequestMethod.GET)
-
-    public PlacesSearchResponse findPlaceByType(String placeType, int radius, double lat, double lng) {
+    public PlacesSearchResponse findPlaceByType(String placeType, double radius, double lat, double lng) {
         TextSearchRequest request = PlacesApi.textSearchQuery(context, placeType);
         PlacesSearchResponse response = null;
         try {
-            response = request.location(new LatLng(lat, lng)).radius(radius).await();
-            System.out.println(response.results.toString());
+            response = request.location(new LatLng(lat, lng)).radius(Double.valueOf(radius).intValue()).await();
         } catch (Exception e) {
             e.printStackTrace();
         }

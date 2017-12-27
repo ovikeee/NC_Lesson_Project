@@ -137,21 +137,20 @@ function findWay() {
 }
 
 function findBeaches() {
-    findPlaces("пляж", 1000);
+    findPlaces("пляж", getRadius());
 }
 
 function findArchitectures() {
-    findPlaces("достопримечательности", 1000);
+    findPlaces("достопримечательности", getRadius());
 }
 
 function findMuseums() {
-    findPlaces("музеи", 1000);
+    findPlaces("музеи", getRadius());
 }
 
 function findPlaceByType() {
     const placeType = document.getElementById("place-type-input").value;
-    // TODO Remove hard radius
-    findPlaces(placeType, 1000);
+    findPlaces(placeType, getRadius());
 }
 
 function calculateAndDisplayRoute(startPlace, finalPlace) {
@@ -280,10 +279,13 @@ function filterByDistance() {
     }
 }
 
-function filterPlaces() {
+function getRadius() {
     const distanceFilter = document.getElementById("distance-checkbox").checked;
 
     if (distanceFilter === true) {
-        filterByDistance();
+        console.log(document.getElementById("distance-input").value * 1000);
+        return document.getElementById("distance-input").value * 1000;
     }
+    console.log(1000);
+    return 1000;
 }
